@@ -1,0 +1,144 @@
+.contact {
+  padding: 140px 0 80px;
+  border-top: 1px solid var(--gray-900);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.labelLine {
+  width: 40px;
+  height: 1px;
+  background: var(--gray-600);
+}
+
+.labelText {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.title em {
+  font-style: italic;
+  color: var(--gray-400);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--gray-400);
+  max-width: 500px;
+  line-height: 1.6;
+  margin-bottom: 60px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  padding: 28px 0;
+  border-top: 1px solid var(--gray-800);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  gap: 24px;
+}
+
+.link:last-child {
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.link:hover {
+  padding-left: 16px;
+}
+
+.link:hover .linkArrow {
+  transform: translate(4px, -4px);
+  opacity: 1;
+}
+
+.linkLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.linkValue {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--white);
+  flex: 1;
+}
+
+.linkArrow {
+  font-size: 1.2rem;
+  color: var(--gray-500);
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+  border-top: 1px solid var(--gray-900);
+}
+
+.footerLeft,
+.footerRight {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 80px 0 60px;
+  }
+
+  .container {
+    padding: 0 24px;
+  }
+
+  .link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}
