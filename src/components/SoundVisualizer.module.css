@@ -1,0 +1,122 @@
+/* SoundVisualizer — canvas-based audio visualizer ─────────────────────────── */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  border-bottom: 1px solid var(--gray-800);
+  transition: border-color 0.4s ease;
+}
+
+.wrapper.speaking {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Canvas fills the container ─────────────────────────────────────────────── */
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Centre overlay ──────────────────────────────────────────────────────────── */
+.centerOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Avatar ring */
+.avatarRing {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.avatarRing.ringSpeaking {
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.04),
+    0 0 24px rgba(255, 255, 255, 0.12),
+    0 0 48px rgba(255, 255, 255, 0.06);
+  animation: ringPulse 1.4s ease-in-out infinite;
+}
+
+.avatarRing.ringLoading {
+  border-color: rgba(255, 255, 255, 0.3);
+  animation: ringSpin 2s linear infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+
+@keyframes ringLoadingDash {
+  to { stroke-dashoffset: -50; }
+}
+
+@keyframes ringSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Monogram */
+.monogram {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--white);
+  user-select: none;
+  line-height: 1;
+}
+
+/* Status badge */
+.statusLabel {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.wrapper.speaking .statusLabel {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.wrapper.loading .statusLabel {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Outer ambient glow (speaking only) ──────────────────────────────────────── */
+.outerGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.04);
+  animation: glowBreath 2s ease-in-out infinite;
+}
+
+@keyframes glowBreath {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}

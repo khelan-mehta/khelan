@@ -1,3 +1,5 @@
+/* TalkModal ─────────────────────────────────────────────────────────────────── */
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -21,13 +23,14 @@
   overflow: hidden;
 }
 
-/* Header */
+/* ── Header ──────────────────────────────────────────────────────────────────── */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
   border-bottom: 1px solid var(--gray-800);
+  flex-shrink: 0;
 }
 
 .headerLeft {
@@ -36,17 +39,41 @@
   gap: 12px;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Status dot — three states */
 .statusDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--gray-600);
-  transition: background 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
+  flex-shrink: 0;
 }
 
-.statusDot.active {
+.statusDot.speaking {
   background: #22c55e;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.55);
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.statusDot.loading {
+  background: rgba(255, 255, 255, 0.4);
+  animation: dotBlink 1s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.7; }
+}
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
 }
 
 .headerTitle {
@@ -62,8 +89,37 @@
   letter-spacing: 0.08em;
   color: var(--gray-500);
   margin-top: 2px;
+  transition: color 0.3s;
 }
 
+/* ── TTS voice toggle button ─────────────────────────────────────────────────── */
+.ttsToggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gray-800);
+  color: var(--gray-600);
+  transition: all 0.2s;
+}
+
+.ttsToggle:hover {
+  border-color: var(--gray-600);
+  color: var(--gray-300);
+}
+
+.ttsToggle.ttsOn {
+  color: var(--gray-400);
+  border-color: var(--gray-700);
+}
+
+.ttsToggle.ttsOn:hover {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+/* ── Close button ────────────────────────────────────────────────────────────── */
 .closeBtn {
   width: 36px;
   height: 36px;
@@ -80,55 +136,7 @@
   color: var(--white);
 }
 
-/* Video Section */
-.videoSection {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: var(--black);
-  border-bottom: 1px solid var(--gray-800);
-  overflow: hidden;
-}
-
-.video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatarFallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  opacity: 0.3;
-}
-
-.avatarLabel {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gray-500);
-}
-
-.videoGlow {
-  position: absolute;
-  inset: 0;
-  border: 2px solid transparent;
-  transition: border-color 0.5s ease;
-  pointer-events: none;
-}
-
-.videoGlow.active {
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
-}
-
-/* Messages */
+/* ── Messages ────────────────────────────────────────────────────────────────── */
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -136,8 +144,8 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 200px;
-  max-height: 300px;
+  min-height: 180px;
+  max-height: 280px;
 }
 
 .messages::-webkit-scrollbar {
@@ -188,7 +196,7 @@
   padding: 0 4px;
 }
 
-/* Typing indicator */
+/* ── Typing indicator ────────────────────────────────────────────────────────── */
 .typing {
   display: flex;
   gap: 4px;
@@ -213,15 +221,14 @@
 
 @keyframes typingBounce {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
-  30% { transform: translateY(-6px); opacity: 1; }
+  30%           { transform: translateY(-6px); opacity: 1; }
 }
 
-/* Input */
+/* ── Input section ───────────────────────────────────────────────────────────── */
 .inputSection {
   display: flex;
-  gap: 0;
-  padding: 0;
   border-top: 1px solid var(--gray-800);
+  flex-shrink: 0;
 }
 
 .input {
@@ -263,12 +270,13 @@
   cursor: not-allowed;
 }
 
+/* ── Responsive ──────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .modal {
     max-height: 95vh;
   }
 
   .messages {
-    max-height: 250px;
+    max-height: 220px;
   }
 }
