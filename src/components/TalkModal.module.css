@@ -280,3 +280,16 @@
     max-height: 220px;
   }
 }
+
+.speakingBubble {
+  border-color: rgba(255, 255, 255, 0.25); /* or a subtle glow */
+  box-shadow: 0 0 12px rgba(120, 180, 255, 0.15);
+}
+
+.speakingBar {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #78b4ff, transparent);
+  transform-origin: left;
+  border-radius: 1px;
+  margin-top: 4px;
+}
