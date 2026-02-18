@@ -13,7 +13,7 @@ interface Message {
   speakingIndex?: number
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const API_BASE = 'https://portfoliobe-ebon.vercel.app'
 
 // ─── Utility: split markdown text into speakable sentences ────────────────────
 // Strips markdown syntax so TTS doesn't read "asterisk asterisk bold asterisk asterisk"
