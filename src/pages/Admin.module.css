@@ -346,6 +346,286 @@
   color: var(--gray-600);
 }
 
+/* ── Voice card highlight ─────────────────────────────────────────────────── */
+.voiceCard {
+  position: relative;
+  border-color: var(--gray-700);
+}
+
+.cardBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 3px 10px;
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 12px;
+  margin-top: 8px;
+}
+
+.sectionHint {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* ── File list preview ───────────────────────────────────────────────────── */
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: var(--black);
+  border: 1px solid var(--gray-800);
+}
+
+.fileItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.fileName {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray-300);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.fileSize {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.errorMsg {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #ef4444;
+  letter-spacing: 0.05em;
+}
+
+/* ── Uploaded samples list ─────────────────────────────────────────────────── */
+.samplesSection {
+  margin-top: 20px;
+}
+
+.sampleList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sampleItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--black);
+  border: 1px solid var(--gray-800);
+}
+
+.audioPlayer {
+  width: 100%;
+  height: 28px;
+  filter: invert(1) brightness(0.6);
+}
+
+.sampleMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.sampleName {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gray-400);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.sampleSize {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.deleteBtn {
+  width: 28px;
+  height: 28px;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gray-800);
+  color: var(--gray-600);
+  transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ── Voice selection grid ──────────────────────────────────────────────────── */
+.voiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.voiceOption {
+  padding: 12px 10px;
+  background: var(--black);
+  border: 1px solid var(--gray-800);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.voiceOption:hover {
+  border-color: var(--gray-600);
+}
+
+.voiceSelected {
+  border-color: var(--white) !important;
+  background: var(--gray-900);
+}
+
+.voiceName {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.voiceDesc {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--gray-500);
+  letter-spacing: 0.03em;
+}
+
+/* ── Speed slider ──────────────────────────────────────────────────────────── */
+.speedRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.speedLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.speedSlider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 2px;
+  background: var(--gray-700);
+  outline: none;
+  cursor: pointer;
+}
+
+.speedSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.speedSlider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--white);
+  border: none;
+  cursor: pointer;
+}
+
+.speedHint {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--gray-600);
+  white-space: nowrap;
+}
+
+/* ── Voice action buttons ──────────────────────────────────────────────────── */
+.voiceActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.previewBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: transparent;
+  color: var(--gray-300);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.previewBtn:hover:not(:disabled) {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.previewBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinIcon {
+  animation: spin 1s linear infinite;
+}
+
 @media (max-width: 768px) {
   .dashboard {
     padding: 40px 24px;
@@ -358,5 +638,14 @@
 
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .voiceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .voiceActions {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
