@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import axios from 'axios'
 import styles from './Admin.module.css'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const API_BASE = "https://portfoliobe-ebon.vercel.app"
 
 const VOICE_OPTIONS = [
   { id: 'alloy',   label: 'Alloy',   desc: 'Neutral, versatile' },
