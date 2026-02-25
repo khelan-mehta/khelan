@@ -64,22 +64,26 @@ export default function Projects() {
             <motion.div
               key={project.title}
               className={styles.card}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.12 * i + 0.3 }}
-              data-hover
+              transition={{ duration: 0.6, delay: 0.1 * i + 0.3 }}
             >
-              <div className={styles.cardTop}>
-                <span className={styles.year}>{project.year}</span>
-                <span className={styles.arrow}>↗</span>
+              <span className={styles.cardNum}>0{i + 1}</span>
+
+              <div className={styles.cardBody}>
+                <div className={styles.cardTop}>
+                  <span className={styles.year}>{project.year}</span>
+                </div>
+                <h3 className={styles.cardTitle}>{project.title}</h3>
+                <p className={styles.cardDesc}>{project.description}</p>
+                <div className={styles.cardTags}>
+                  {project.tags.map((tag) => (
+                    <span key={tag} className={styles.tag}>{tag}</span>
+                  ))}
+                </div>
               </div>
-              <h3 className={styles.cardTitle}>{project.title}</h3>
-              <p className={styles.cardDesc}>{project.description}</p>
-              <div className={styles.cardTags}>
-                {project.tags.map((tag) => (
-                  <span key={tag} className={styles.tag}>{tag}</span>
-                ))}
-              </div>
+
+              <span className={styles.arrow}>↗</span>
             </motion.div>
           ))}
         </div>

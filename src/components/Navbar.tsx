@@ -30,8 +30,8 @@ export default function Navbar() {
       >
         <div className={styles.inner}>
           <a href="#" className={styles.logo}>
-            <span className={styles.logoIcon}>K</span>
-            <span className={styles.logoText}>Khelan</span>
+            <span className={styles.logoIcon}>KM</span>
+            <span className={styles.logoText}>Khelan Mehta</span>
           </a>
 
           <div className={styles.links}>

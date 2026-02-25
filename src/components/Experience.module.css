@@ -1,46 +1,42 @@
+/* ── Experience Section ──────────────────────────────────────────────────── */
 .experience {
-  padding: 140px 0;
-  border-top: 1px solid var(--gray-900);
+  padding: 120px 0;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 48px;
 }
 
 .label {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 52px;
 }
-
-.labelLine {
-  width: 40px;
-  height: 1px;
-  background: var(--gray-600);
-}
-
+.labelLine { width: 28px; height: 1px; background: var(--teal); }
 .labelText {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gray-500);
+  color: var(--teal);
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 400;
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
   line-height: 1.1;
-  margin-bottom: 60px;
+  margin-bottom: 56px;
+  color: var(--text);
 }
-
 .title em {
   font-style: italic;
-  color: var(--gray-400);
+  font-weight: 400;
+  color: var(--teal);
 }
 
 .timeline {
@@ -49,14 +45,43 @@
 }
 
 .item {
-  padding: 40px 0;
-  border-top: 1px solid var(--gray-800);
-  transition: background 0.3s ease;
+  padding: 36px 0 36px 28px;
+  border-top: 1px solid var(--border-subtle);
+  position: relative;
+  transition: padding-left 0.3s var(--ease-expo);
+}
+.item:last-child { border-bottom: 1px solid var(--border-subtle); }
+
+/* Teal node on left edge */
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 44px;
+  width: 8px;
+  height: 8px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--teal-border);
+  border-radius: 50%;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.item:hover::before {
+  background: var(--teal);
+  border-color: var(--teal);
+  box-shadow: 0 0 10px rgba(0, 212, 170, 0.4);
 }
 
-.item:last-child {
-  border-bottom: 1px solid var(--gray-800);
+/* Vertical connector line */
+.item::after {
+  content: '';
+  position: absolute;
+  left: 3.5px;
+  top: 52px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-subtle);
 }
+.item:last-child::after { display: none; }
 
 .itemHeader {
   display: flex;
@@ -68,15 +93,17 @@
 
 .company {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 400;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
   margin-bottom: 4px;
+  transition: color 0.3s;
 }
+.item:hover .company { color: var(--teal); }
 
 .role {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--gray-400);
+  font-size: 0.88rem;
+  color: var(--text-dim);
 }
 
 .meta {
@@ -89,59 +116,51 @@
 
 .period {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--gray-500);
+  color: var(--teal);
+  background: var(--teal-dim);
+  border: 1px solid var(--teal-border);
+  padding: 3px 10px;
+  border-radius: 2px;
 }
 
 .location {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 0.08em;
-  color: var(--gray-600);
+  color: var(--text-muted);
 }
 
 .points {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-left: 0;
+  gap: 10px;
 }
-
 .point {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--gray-400);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-dim);
   padding-left: 20px;
   position: relative;
 }
-
 .point::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 10px;
-  width: 6px;
+  top: 11px;
+  width: 8px;
   height: 1px;
-  background: var(--gray-600);
+  background: var(--teal);
+  opacity: 0.5;
 }
 
 @media (max-width: 768px) {
-  .experience {
-    padding: 80px 0;
-  }
-
-  .container {
-    padding: 0 24px;
-  }
-
-  .itemHeader {
-    flex-direction: column;
-  }
-
-  .meta {
-    align-items: flex-start;
-  }
+  .experience { padding: 80px 0; }
+  .container { padding: 0 24px; }
+  .item { padding-left: 20px; }
+  .itemHeader { flex-direction: column; }
+  .meta { align-items: flex-start; }
 }

@@ -45,29 +45,31 @@ export default function Home() {
           position: fixed;
           bottom: 32px;
           right: 32px;
-          width: 56px;
-          height: 56px;
-          background: var(--white);
-          color: var(--black);
+          width: 52px;
+          height: 52px;
+          background: var(--teal);
+          color: var(--bg);
           border: none;
+          border-radius: 4px;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           z-index: 1500;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 0 20px rgba(0, 212, 170, 0.25);
         }
         .floating-talk-btn:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 40px rgba(255,255,255,0.2);
+          box-shadow: 0 0 32px rgba(0, 212, 170, 0.45), 0 10px 30px rgba(0,0,0,0.4);
         }
         .floating-pulse {
           position: absolute;
           top: -3px;
           right: -3px;
-          width: 12px;
-          height: 12px;
-          background: #22c55e;
+          width: 11px;
+          height: 11px;
+          background: var(--amber);
           border-radius: 50%;
           animation: fpulse 2s infinite;
         }

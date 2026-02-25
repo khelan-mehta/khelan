@@ -1,108 +1,126 @@
+/* ── Skills Section ──────────────────────────────────────────────────────── */
 .skills {
-  padding: 140px 0;
-  border-top: 1px solid var(--gray-900);
+  padding: 120px 0;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 48px;
 }
 
 .label {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 52px;
 }
-
-.labelLine {
-  width: 40px;
-  height: 1px;
-  background: var(--gray-600);
-}
-
+.labelLine { width: 28px; height: 1px; background: var(--teal); }
 .labelText {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gray-500);
+  color: var(--teal);
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 400;
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
   line-height: 1.1;
-  margin-bottom: 60px;
+  margin-bottom: 56px;
+  color: var(--text);
 }
-
 .title em {
   font-style: italic;
-  color: var(--gray-400);
+  font-weight: 400;
+  color: var(--teal);
 }
 
+/* ── Skills Grid ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--gray-800);
-  border: 1px solid var(--gray-800);
+  gap: 2px;
 }
 
 .card {
-  background: var(--black);
-  padding: 36px;
-  transition: background 0.4s ease;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  padding: 28px 24px;
+  position: relative;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  overflow: hidden;
 }
 
-.card:hover {
-  background: var(--gray-950);
+/* Animated left accent bar */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 0;
+  transition: height 0.4s var(--ease-expo);
 }
+.card:hover { border-color: var(--border); background: var(--surface-2); }
+.card:hover::before { height: 100%; }
+
+.card:nth-child(3n+1)::before { background: var(--teal); }
+.card:nth-child(3n+2)::before { background: var(--amber); }
+.card:nth-child(3n+3)::before { background: var(--blue); }
 
 .cardTitle {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--gray-800);
+  color: var(--text-dim);
+  margin-bottom: 18px;
 }
+/* Code-comment prefix */
+.cardTitle::before {
+  content: '// ';
+  font-weight: 400;
+  color: var(--teal);
+}
+.card:nth-child(3n+2) .cardTitle::before { color: var(--amber); }
+.card:nth-child(3n+3) .cardTitle::before { color: var(--blue); }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
-
 .tag {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.05em;
-  padding: 8px 14px;
-  border: 1px solid var(--gray-800);
-  color: var(--gray-400);
-  transition: all 0.3s ease;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 5px 11px;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  border-radius: 2px;
+  transition: all 0.2s ease;
 }
-
 .card:hover .tag {
-  border-color: var(--gray-600);
-  color: var(--gray-300);
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+.card:nth-child(3n+1):hover .tag:hover {
+  border-color: var(--teal); color: var(--teal); background: var(--teal-dim);
+}
+.card:nth-child(3n+2):hover .tag:hover {
+  border-color: var(--amber); color: var(--amber); background: var(--amber-dim);
+}
+.card:nth-child(3n+3):hover .tag:hover {
+  border-color: var(--blue); color: var(--blue); background: var(--blue-dim);
 }
 
-@media (max-width: 768px) {
-  .skills {
-    padding: 80px 0;
-  }
-
-  .container {
-    padding: 0 24px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .container { padding: 0 24px; }
+  .skills { padding: 80px 0; }
 }
