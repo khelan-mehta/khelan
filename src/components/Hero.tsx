@@ -1,17 +1,8 @@
 import { useRef, useEffect, useCallback, useState } from "react";
-import { motion } from "framer-motion"; // kept for left-side animations
+import { motion } from "framer-motion";
 import * as THREE from "three";
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   THREE.JS ENERGY-MODELING HERO
-   ─────────────────────────────────────────────────────────────────────────
-   • Replaces the CSS 3-D building with a real Three.js WebGL scene
-   • Keeps every original UI color / CSS variable
-   • Thermal-mapped floors, animated scan line, floating metric cards,
-     glowing grid ground-plane, orbiting data particles
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-// ── Color palette (mirrors your CSS vars) ──────────────────────────────────
+// ── Color palette (mirrors CSS vars) ───────────────────────────────────────
 const TEAL = 0x00d4aa;
 const TEAL_HEX = "#00d4aa";
 const AMBER = 0xf5a623;
@@ -20,35 +11,34 @@ const BLUE = 0x4a9eff;
 const BLUE_HEX = "#4a9eff";
 const BG = 0x0a0f14;
 const SURFACE = 0x111820;
-const BORDER = 0x1a2530;
 const TEXT = "#e2e8f0";
 const TEXT_DIM = "#8899aa";
 const TEXT_MUTED = "#4a5568";
+const WHITE = 0xffffff;
 
-export default function Hero3D({ onTalkClick }: any) {
-  const mountRef = useRef(null);
-  const frameRef = useRef(0);
-  const sceneDataRef = useRef<any>(null);
+export default function Hero3D({ onTalkClick }: { onTalkClick: () => void }) {
+  const mountRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<number>(0);
   const mouseRef = useRef({ x: 0, y: 0 });
   const [loaded, setLoaded] = useState(false);
 
-  /* ── Mouse tracking ─────────────────────────────────────────────────── */
-  const onMouseMove = useCallback((e: any) => {
-    const el: any = mountRef.current;
+  const onMouseMove = useCallback((e: MouseEvent) => {
+    const el = mountRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
     mouseRef.current.x = ((e.clientX - r.left) / r.width) * 2 - 1;
     mouseRef.current.y = -((e.clientY - r.top) / r.height) * 2 + 1;
   }, []);
 
-  /* ── Three.js bootstrap ─────────────────────────────────────────────── */
   useEffect(() => {
+    
     let disposed = false;
 
     async function init() {
+      
       if (disposed) return;
 
-      const container: any = mountRef.current;
+      const container = mountRef.current;
       if (!container) return;
       const W = container.clientWidth;
       const H = container.clientHeight;
@@ -58,46 +48,29 @@ export default function Hero3D({ onTalkClick }: any) {
       renderer.setSize(W, H);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setClearColor(0x000000, 0);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       container.appendChild(renderer.domElement);
 
       // ── Scene ──
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(BG, 0.018);
+      scene.fog = new THREE.FogExp2(BG, 0.012);
 
       // ── Camera ──
       const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 200);
       camera.position.set(8, 9, 14);
       camera.lookAt(0, 3, 0);
 
-      // ── Lights ──
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
-      scene.add(ambientLight);
-
-      const mainLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      mainLight.position.set(8, 15, 10);
-      mainLight.castShadow = true;
-      mainLight.shadow.mapSize.set(1024, 1024);
-      mainLight.shadow.camera.near = 1;
-      mainLight.shadow.camera.far = 50;
-      mainLight.shadow.camera.left = -15;
-      mainLight.shadow.camera.right = 15;
-      mainLight.shadow.camera.top = 15;
-      mainLight.shadow.camera.bottom = -15;
-      scene.add(mainLight);
-
-      const tealLight = new THREE.PointLight(TEAL, 1.2, 30);
+      // ── Lights (subtle — mostly for label sprites) ──
+      scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+      const tealLight = new THREE.PointLight(TEAL, 0.8, 30);
       tealLight.position.set(-5, 8, 6);
       scene.add(tealLight);
-
-      const amberLight = new THREE.PointLight(AMBER, 0.5, 20);
+      const amberLight = new THREE.PointLight(AMBER, 0.4, 20);
       amberLight.position.set(6, 4, -3);
       scene.add(amberLight);
 
-      // ══════════════════════════════════════════════════════════════════
-      // BUILDING — multi-floor thermal-mapped tower
-      // ══════════════════════════════════════════════════════════════════
+      // ════════════════════════════════════════════════════════════════════
+      // WIREFRAME BUILDING — white grid-outline only
+      // ════════════════════════════════════════════════════════════════════
       const FLOORS = 10;
       const FLOOR_H = 0.65;
       const GAP = 0.06;
@@ -105,10 +78,21 @@ export default function Hero3D({ onTalkClick }: any) {
       const BD = 2.4;
       const buildingGroup = new THREE.Group();
 
-      // Thermal color ramp (cool→warm bottom→top)
+      const whiteLine = new THREE.LineBasicMaterial({
+        color: WHITE,
+        transparent: true,
+        opacity: 0.35,
+      });
+      const whiteBright = new THREE.LineBasicMaterial({
+        color: WHITE,
+        transparent: true,
+        opacity: 0.6,
+      });
+
+      // Thermal color ramp for accent edges
       const thermalColors = [
-        new THREE.Color(0x00b4d8), // cool blue
-        new THREE.Color(0x00d4aa), // teal
+        new THREE.Color(0x00b4d8),
+        new THREE.Color(0x00d4aa),
         new THREE.Color(0x2dd4a0),
         new THREE.Color(0x48d68e),
         new THREE.Color(0x7acc57),
@@ -116,201 +100,198 @@ export default function Hero3D({ onTalkClick }: any) {
         new THREE.Color(0xd4b020),
         new THREE.Color(0xe89820),
         new THREE.Color(0xf57a20),
-        new THREE.Color(AMBER),    // warm amber
+        new THREE.Color(AMBER),
       ];
 
-      const floors = [];
-      const windows: any = [];
+      // Helper: create wireframe edges from a BoxGeometry
+      function wireBox(
+        w: number,
+        h: number,
+        d: number,
+        mat: any
+      ): any {
+        const geo = new THREE.BoxGeometry(w, h, d);
+        const edges = new THREE.EdgesGeometry(geo);
+        return new THREE.LineSegments(edges, mat);
+      }
+
+      const windows: {
+        mesh: any;
+        floor: number;
+        col: number;
+        mat: any;
+        baseOpacity: number;
+      }[] = [];
 
       for (let i = 0; i < FLOORS; i++) {
         const y = i * (FLOOR_H + GAP);
         const color = thermalColors[i];
 
-        // Floor slab
-        const floorGeo = new THREE.BoxGeometry(BW, FLOOR_H, BD);
-        const floorMat = new THREE.MeshStandardMaterial({
-          color: SURFACE,
-          metalness: 0.3,
-          roughness: 0.7,
-          transparent: true,
-          opacity: 0.92,
-        });
-        const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-        floorMesh.position.set(0, y + FLOOR_H / 2, 0);
-        floorMesh.castShadow = true;
-        floorMesh.receiveShadow = true;
-        buildingGroup.add(floorMesh);
-        floors.push({ mesh: floorMesh, index: i });
+        // ── Floor slab outline ──
+        const floorWire = wireBox(BW, FLOOR_H, BD, whiteLine);
+        floorWire.position.set(0, y + FLOOR_H / 2, 0);
+        buildingGroup.add(floorWire);
 
-        // Thermal edge strip (left side — like your border-left)
-        const stripGeo = new THREE.BoxGeometry(0.08, FLOOR_H + 0.02, BD + 0.04);
-        const stripMat = new THREE.MeshStandardMaterial({
+        // ── Thermal accent strip (left edge — colored line) ──
+        const stripMat = new THREE.LineBasicMaterial({
           color: color,
-          emissive: color,
-          emissiveIntensity: 0.6,
-          metalness: 0.1,
-          roughness: 0.4,
+          transparent: true,
+          opacity: 0.7,
         });
-        const strip = new THREE.Mesh(stripGeo, stripMat);
-        strip.position.set(-BW / 2 - 0.04, y + FLOOR_H / 2, 0);
+        const stripGeo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(-BW / 2, y, -BD / 2),
+          new THREE.Vector3(-BW / 2, y + FLOOR_H, -BD / 2),
+          new THREE.Vector3(-BW / 2, y + FLOOR_H, BD / 2),
+          new THREE.Vector3(-BW / 2, y, BD / 2),
+        ]);
+        const strip = new THREE.Line(stripGeo, stripMat);
         buildingGroup.add(strip);
 
-        // Windows — 4 per floor on front face
+        // ── Front face windows — wireframe rectangles ──
         for (let w = 0; w < 4; w++) {
-          const winGeo = new THREE.BoxGeometry(0.5, 0.38, 0.06);
-          const winMat = new THREE.MeshStandardMaterial({
+          const winMat = new THREE.LineBasicMaterial({
             color: color,
-            emissive: color,
-            emissiveIntensity: 0.4,
             transparent: true,
-            opacity: 0.7,
-            metalness: 0.1,
-            roughness: 0.3,
+            opacity: 0.55,
           });
-          const win = new THREE.Mesh(winGeo, winMat);
+          const winWire = wireBox(0.5, 0.38, 0.01, winMat);
           const xPos = -BW / 2 + 0.55 + w * 0.75;
-          win.position.set(xPos, y + FLOOR_H / 2, BD / 2 + 0.03);
-          buildingGroup.add(win);
-          windows.push({ mesh: win, floor: i, col: w, baseMat: winMat, color });
-        }
-
-        // Side windows — 3 per floor
-        for (let w = 0; w < 3; w++) {
-          const winGeo = new THREE.BoxGeometry(0.06, 0.38, 0.45);
-          const winMat = new THREE.MeshStandardMaterial({
-            color: color,
-            emissive: color,
-            emissiveIntensity: 0.35,
-            transparent: true,
-            opacity: 0.6,
-            metalness: 0.1,
-            roughness: 0.3,
+          winWire.position.set(xPos, y + FLOOR_H / 2, BD / 2 + 0.02);
+          buildingGroup.add(winWire);
+          windows.push({
+            mesh: winWire,
+            floor: i,
+            col: w,
+            mat: winMat,
+            baseOpacity: 0.55,
           });
-          const win = new THREE.Mesh(winGeo, winMat);
-          const zPos = -BD / 2 + 0.5 + w * 0.7;
-          win.position.set(BW / 2 + 0.03, y + FLOOR_H / 2, zPos);
-          buildingGroup.add(win);
-          windows.push({ mesh: win, floor: i, col: w + 4, baseMat: winMat, color });
         }
 
-        // Energy bar overlay (subtle glow on right side of each floor)
-        const barGeo = new THREE.BoxGeometry(BW * 0.35, FLOOR_H - 0.04, BD + 0.02);
-        const barMat = new THREE.MeshStandardMaterial({
-          color: color,
-          transparent: true,
-          opacity: 0.04,
-          emissive: color,
-          emissiveIntensity: 0.15,
-        });
-        const bar = new THREE.Mesh(barGeo, barMat);
-        bar.position.set(BW / 2 - BW * 0.175, y + FLOOR_H / 2, 0);
-        buildingGroup.add(bar);
+        // ── Side face windows ──
+        for (let w = 0; w < 3; w++) {
+          const winMat = new THREE.LineBasicMaterial({
+            color: color,
+            transparent: true,
+            opacity: 0.45,
+          });
+          const winWire = wireBox(0.01, 0.38, 0.45, winMat);
+          const zPos = -BD / 2 + 0.5 + w * 0.7;
+          winWire.position.set(BW / 2 + 0.02, y + FLOOR_H / 2, zPos);
+          buildingGroup.add(winWire);
+          windows.push({
+            mesh: winWire,
+            floor: i,
+            col: w + 4,
+            mat: winMat,
+            baseOpacity: 0.45,
+          });
+        }
       }
 
-      // ── Building base ──
-      const baseGeo = new THREE.BoxGeometry(BW + 0.4, 0.12, BD + 0.4);
-      const baseMat = new THREE.MeshStandardMaterial({
-        color: 0x0d1a14,
-        emissive: TEAL,
-        emissiveIntensity: 0.08,
-        metalness: 0.5,
-        roughness: 0.6,
+      // ── Base outline ──
+      const baseWire = wireBox(BW + 0.4, 0.12, BD + 0.4, whiteBright);
+      baseWire.position.set(0, -0.06, 0);
+      buildingGroup.add(baseWire);
+
+      // ── Roof outline ──
+      const roofWire = wireBox(BW + 0.1, 0.08, BD + 0.1, whiteBright);
+      roofWire.position.set(0, FLOORS * (FLOOR_H + GAP) + 0.04, 0);
+      buildingGroup.add(roofWire);
+
+      // ── Roof antennas (thin white lines) ──
+      const antennaLineMat = new THREE.LineBasicMaterial({
+        color: WHITE,
+        transparent: true,
+        opacity: 0.5,
       });
-      const base = new THREE.Mesh(baseGeo, baseMat);
-      base.position.set(0, -0.06, 0);
-      base.receiveShadow = true;
-      buildingGroup.add(base);
+      function makeAntenna(x: number, z: number) {
+        const topY = FLOORS * (FLOOR_H + GAP);
+        const geo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(x, topY + 0.08, z),
+          new THREE.Vector3(x, topY + 0.84, z),
+        ]);
+        return new THREE.Line(geo, antennaLineMat);
+      }
+      buildingGroup.add(makeAntenna(BW / 2 - 0.3, BD / 2 - 0.3));
+      buildingGroup.add(makeAntenna(-BW / 2 + 0.5, -BD / 2 + 0.3));
 
-      // ── Roof ──
-      const roofGeo = new THREE.BoxGeometry(BW + 0.1, 0.08, BD + 0.1);
-      const roofMat = new THREE.MeshStandardMaterial({
-        color: SURFACE,
-        emissive: TEAL,
-        emissiveIntensity: 0.1,
-        metalness: 0.4,
-        roughness: 0.5,
-      });
-      const roof = new THREE.Mesh(roofGeo, roofMat);
-      roof.position.set(0, FLOORS * (FLOOR_H + GAP) + 0.04, 0);
-      buildingGroup.add(roof);
-
-      // ── Roof antennas/equipment ──
-      const antennaGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.8, 8);
-      const antennaMat = new THREE.MeshStandardMaterial({ color: 0x334455 });
-      const antenna1 = new THREE.Mesh(antennaGeo, antennaMat);
-      antenna1.position.set(BW / 2 - 0.3, FLOORS * (FLOOR_H + GAP) + 0.44, BD / 2 - 0.3);
-      buildingGroup.add(antenna1);
-
-      const antenna2 = new THREE.Mesh(antennaGeo, antennaMat);
-      antenna2.position.set(-BW / 2 + 0.5, FLOORS * (FLOOR_H + GAP) + 0.44, -BD / 2 + 0.3);
-      buildingGroup.add(antenna2);
-
-      // Antenna tip lights
+      // Antenna tip glow spheres (tiny, still colored)
       const tipGeo = new THREE.SphereGeometry(0.06, 8, 8);
-      const tipMat = new THREE.MeshStandardMaterial({
+      const tip1Mat = new THREE.MeshBasicMaterial({
         color: TEAL,
-        emissive: TEAL,
-        emissiveIntensity: 1.0,
+        transparent: true,
+        opacity: 0.9,
       });
-      const tip1 = new THREE.Mesh(tipGeo, tipMat);
-      tip1.position.set(BW / 2 - 0.3, FLOORS * (FLOOR_H + GAP) + 0.84, BD / 2 - 0.3);
+      const tip1 = new THREE.Mesh(tipGeo, tip1Mat);
+      tip1.position.set(
+        BW / 2 - 0.3,
+        FLOORS * (FLOOR_H + GAP) + 0.84,
+        BD / 2 - 0.3
+      );
       buildingGroup.add(tip1);
 
-      const tip2Mat = new THREE.MeshStandardMaterial({
+      const tip2Mat = new THREE.MeshBasicMaterial({
         color: AMBER,
-        emissive: AMBER,
-        emissiveIntensity: 1.0,
+        transparent: true,
+        opacity: 0.9,
       });
       const tip2 = new THREE.Mesh(tipGeo, tip2Mat);
-      tip2.position.set(-BW / 2 + 0.5, FLOORS * (FLOOR_H + GAP) + 0.84, -BD / 2 + 0.3);
+      tip2.position.set(
+        -BW / 2 + 0.5,
+        FLOORS * (FLOOR_H + GAP) + 0.84,
+        -BD / 2 + 0.3
+      );
       buildingGroup.add(tip2);
 
       buildingGroup.position.set(0, 0.1, 0);
       scene.add(buildingGroup);
 
-      // ══════════════════════════════════════════════════════════════════
-      // SCAN LINE — horizontal plane that sweeps up the building
-      // ══════════════════════════════════════════════════════════════════
-      const scanGeo = new THREE.PlaneGeometry(BW + 1.5, BD + 1.5);
-      const scanMat = new THREE.MeshBasicMaterial({
-        color: TEAL,
-        transparent: true,
-        opacity: 0.12,
-        side: THREE.DoubleSide,
-        depthWrite: false,
-      });
-      const scanPlane = new THREE.Mesh(scanGeo, scanMat);
-      scanPlane.rotation.x = -Math.PI / 2;
-      scanPlane.position.set(0, 0, 0);
-      buildingGroup.add(scanPlane);
-
-      // Scan line edge glow
-      const scanEdgeGeo = new THREE.RingGeometry(
-        Math.max(BW, BD) * 0.7,
+      // ════════════════════════════════════════════════════════════════════
+      // SCAN LINE — wireframe ring that sweeps up
+      // ════════════════════════════════════════════════════════════════════
+      const scanRingGeo = new THREE.RingGeometry(
+        Math.max(BW, BD) * 0.68,
         Math.max(BW, BD) * 0.72,
         64
       );
-      const scanEdgeMat = new THREE.MeshBasicMaterial({
+      const scanRingMat = new THREE.MeshBasicMaterial({
         color: TEAL,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.25,
         side: THREE.DoubleSide,
         depthWrite: false,
       });
-      const scanEdge = new THREE.Mesh(scanEdgeGeo, scanEdgeMat);
-      scanEdge.rotation.x = -Math.PI / 2;
-      buildingGroup.add(scanEdge);
+      const scanRing = new THREE.Mesh(scanRingGeo, scanRingMat);
+      scanRing.rotation.x = -Math.PI / 2;
+      buildingGroup.add(scanRing);
 
+      // Thin horizontal scan line
+      const scanLineGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-BW / 2 - 0.5, 0, 0),
+        new THREE.Vector3(BW / 2 + 0.5, 0, 0),
+      ]);
+      const scanLineMat = new THREE.LineBasicMaterial({
+        color: TEAL,
+        transparent: true,
+        opacity: 0.5,
+      });
+      const scanLine = new THREE.Line(scanLineGeo, scanLineMat);
+      buildingGroup.add(scanLine);
 
-
-      // ══════════════════════════════════════════════════════════════════
-      // DATA PARTICLES — orbiting energy data points
-      // ══════════════════════════════════════════════════════════════════
-      const particleCount = 120;
+      // ════════════════════════════════════════════════════════════════════
+      // DATA PARTICLES
+      // ════════════════════════════════════════════════════════════════════
+      const particleCount = 100;
       const particlePositions = new Float32Array(particleCount * 3);
       const particleColors = new Float32Array(particleCount * 3);
-      const particleSizes = new Float32Array(particleCount);
-      const particleMeta: any = [];
+      const particleMeta: {
+        angle: number;
+        radius: number;
+        height: number;
+        speed: number;
+        ySpeed: number;
+        yAmp: number;
+      }[] = [];
 
       const tealC = new THREE.Color(TEAL);
       const amberC = new THREE.Color(AMBER);
@@ -330,8 +311,6 @@ export default function Hero3D({ onTalkClick }: any) {
         particleColors[i * 3 + 1] = c.g;
         particleColors[i * 3 + 2] = c.b;
 
-        particleSizes[i] = 2 + Math.random() * 4;
-
         particleMeta.push({
           angle,
           radius,
@@ -343,42 +322,52 @@ export default function Hero3D({ onTalkClick }: any) {
       }
 
       const particleGeo = new THREE.BufferGeometry();
-      particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
-      particleGeo.setAttribute("color", new THREE.BufferAttribute(particleColors, 3));
+      particleGeo.setAttribute(
+        "position",
+        new THREE.BufferAttribute(particlePositions, 3)
+      );
+      particleGeo.setAttribute(
+        "color",
+        new THREE.BufferAttribute(particleColors, 3)
+      );
 
       const particleMat = new THREE.PointsMaterial({
-        size: 0.06,
+        size: 0.05,
         vertexColors: true,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.6,
         sizeAttenuation: true,
         depthWrite: false,
       });
       const particles = new THREE.Points(particleGeo, particleMat);
       scene.add(particles);
 
-      // ══════════════════════════════════════════════════════════════════
-      // CONNECTION LINES — data flow lines from building
-      // ══════════════════════════════════════════════════════════════════
-      const lineGroup = new THREE.Group();
+      // ════════════════════════════════════════════════════════════════════
+      // CONNECTION LINES
+      // ════════════════════════════════════════════════════════════════════
       const lineCount = 6;
-      const lines: any = [];
+      const lines: {
+        geo: any;
+        angle: number;
+        floorY: number;
+        speed: number;
+        radius: number;
+        segs: number;
+      }[] = [];
 
       for (let i = 0; i < lineCount; i++) {
-        const points = [];
+        const pts: any[] = [];
         const segs = 20;
-        for (let s = 0; s <= segs; s++) {
-          points.push(new THREE.Vector3(0, 0, 0));
-        }
-        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+        for (let s = 0; s <= segs; s++) pts.push(new THREE.Vector3(0, 0, 0));
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
         const lineMat = new THREE.LineBasicMaterial({
-          color: i < 3 ? TEAL : (i < 5 ? AMBER : BLUE),
+          color: i < 3 ? TEAL : i < 5 ? AMBER : BLUE,
           transparent: true,
-          opacity: 0.2,
+          opacity: 0.15,
           depthWrite: false,
         });
         const line = new THREE.Line(lineGeo, lineMat);
-        lineGroup.add(line);
+        scene.add(line);
         lines.push({
           geo: lineGeo,
           angle: (i / lineCount) * Math.PI * 2,
@@ -388,17 +377,16 @@ export default function Hero3D({ onTalkClick }: any) {
           segs,
         });
       }
-      scene.add(lineGroup);
 
-      // ══════════════════════════════════════════════════════════════════
-      // LABELS — floating 3D sprites for eQuest / IES VE
-      // ══════════════════════════════════════════════════════════════════
-      function makeTextSprite(text: any, color: any) {
+      // ════════════════════════════════════════════════════════════════════
+      // LABELS — floating 3D sprites
+      // ════════════════════════════════════════════════════════════════════
+      function makeTextSprite(text: string, color: string) {
         const canvas = document.createElement("canvas");
         canvas.width = 256;
         canvas.height = 64;
-        const ctx: any = canvas.getContext("2d");
-        ctx.fillStyle = "rgba(17,24,32,0.85)";
+        const ctx = canvas.getContext("2d")!;
+        ctx.fillStyle = "rgba(10,15,20,0.8)";
         ctx.strokeStyle = color;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -411,7 +399,7 @@ export default function Hero3D({ onTalkClick }: any) {
         ctx.textBaseline = "middle";
         ctx.fillText(text, 128, 32);
 
-        const tex: any = new THREE.CanvasTexture(canvas);
+        const tex = new THREE.CanvasTexture(canvas);
         tex.minFilter = THREE.LinearFilter;
         const spriteMat = new THREE.SpriteMaterial({
           map: tex,
@@ -425,7 +413,11 @@ export default function Hero3D({ onTalkClick }: any) {
       }
 
       const eQuestLabel = makeTextSprite("eQuest", TEAL_HEX);
-      eQuestLabel.position.set(-BW / 2 - 0.6, FLOORS * (FLOOR_H + GAP) - 0.5, BD / 2 + 1.2);
+      eQuestLabel.position.set(
+        -BW / 2 - 0.6,
+        FLOORS * (FLOOR_H + GAP) - 0.5,
+        BD / 2 + 1.2
+      );
       buildingGroup.add(eQuestLabel);
 
       const iesLabel = makeTextSprite("IES VE", AMBER_HEX);
@@ -437,30 +429,9 @@ export default function Hero3D({ onTalkClick }: any) {
       liveLabel.scale.set(1.6, 0.4, 1);
       buildingGroup.add(liveLabel);
 
-      // ── Store refs ──
-      sceneDataRef.current = {
-        renderer,
-        scene,
-        camera,
-        buildingGroup,
-        floors,
-        windows,
-        scanPlane,
-        scanEdge,
-        particles,
-        particleMeta,
-        lines,
-        tealLight,
-        amberLight,
-        tip1,
-        tip2,
-        tip1Mat: tipMat,
-        tip2Mat: tip2Mat,
-      };
-
       setLoaded(true);
 
-      // ── Resize handler ──
+      // ── Resize ──
       const onResize = () => {
         if (!container || disposed) return;
         const w = container.clientWidth;
@@ -482,32 +453,35 @@ export default function Hero3D({ onTalkClick }: any) {
         const mx = mouseRef.current.x;
         const my = mouseRef.current.y;
 
-        // Camera subtle follow
+        // Camera follow
         camera.position.x += (8 + mx * 2 - camera.position.x) * 0.03;
         camera.position.y += (9 + my * 1.5 - camera.position.y) * 0.03;
         camera.lookAt(0, 3.2, 0);
 
-        // Building gentle rotation
-        buildingGroup.rotation.y = Math.sin(t * 0.15) * 0.06 + mx * 0.12;
+        // Building rotation
+        buildingGroup.rotation.y =
+          Math.sin(t * 0.15) * 0.06 + mx * 0.12;
         buildingGroup.rotation.x = my * 0.04;
 
-        // Scan plane sweep
+        // Scan sweep
         const scanCycle = (t * 0.2) % 1;
-        const scanY = scanCycle * (FLOORS * (FLOOR_H + GAP) + 1);
-        scanPlane.position.y = scanY;
-        scanEdge.position.y = scanY;
-        scanPlane.material.opacity = 0.08 + Math.sin(t * 2) * 0.04;
+        const scanY =
+          scanCycle * (FLOORS * (FLOOR_H + GAP) + 1);
+        scanRing.position.y = scanY;
+        scanLine.position.y = scanY;
+        scanRingMat.opacity = 0.15 + Math.sin(t * 2) * 0.1;
+        scanLineMat.opacity = 0.3 + Math.sin(t * 2) * 0.2;
 
         // Window flicker
-        windows.forEach((w:any) => {
+        windows.forEach((w) => {
           const flicker =
             Math.sin(t * 1.2 + w.floor * 0.7 + w.col * 1.1) * 0.5 + 0.5;
-          w.baseMat.emissiveIntensity = 0.2 + flicker * 0.6;
-          w.baseMat.opacity = 0.4 + flicker * 0.45;
+          w.mat.opacity = w.baseOpacity * 0.4 + flicker * w.baseOpacity * 0.6;
         });
 
         // Particles orbit
-        const positions = particles.geometry.attributes.position.array;
+        const positions = particles.geometry.attributes.position
+          .array as Float32Array;
         for (let i = 0; i < particleMeta.length; i++) {
           const p = particleMeta[i];
           p.angle += p.speed * 0.008;
@@ -520,26 +494,27 @@ export default function Hero3D({ onTalkClick }: any) {
         particles.rotation.y = t * 0.02;
 
         // Data flow lines
-        lines.forEach((l:any) => {
-          const posArr = l.geo.attributes.position.array;
+        lines.forEach((l) => {
+          const posArr = l.geo.attributes.position.array as Float32Array;
           for (let s = 0; s <= l.segs; s++) {
             const frac = s / l.segs;
             const a = l.angle + t * l.speed + frac * 1.5;
             const r = frac * l.radius;
             posArr[s * 3] = Math.cos(a) * r;
-            posArr[s * 3 + 1] = l.floorY + frac * 2 * Math.sin(t + frac * 3);
+            posArr[s * 3 + 1] =
+              l.floorY + frac * 2 * Math.sin(t + frac * 3);
             posArr[s * 3 + 2] = Math.sin(a) * r;
           }
           l.geo.attributes.position.needsUpdate = true;
         });
 
-        // Light pulsing
-        tealLight.intensity = 1.0 + Math.sin(t * 0.8) * 0.4;
-        amberLight.intensity = 0.4 + Math.sin(t * 0.6 + 1) * 0.2;
+        // Light pulse
+        tealLight.intensity = 0.6 + Math.sin(t * 0.8) * 0.3;
+        amberLight.intensity = 0.3 + Math.sin(t * 0.6 + 1) * 0.15;
 
         // Antenna tip blink
-        tip1.material.emissiveIntensity = 0.6 + Math.sin(t * 2) * 0.4;
-        tip2.material.emissiveIntensity = 0.6 + Math.sin(t * 2 + Math.PI) * 0.4;
+        tip1Mat.opacity = 0.5 + Math.sin(t * 2) * 0.4;
+        tip2Mat.opacity = 0.5 + Math.sin(t * 2 + Math.PI) * 0.4;
 
         renderer.render(scene, camera);
       }
@@ -561,22 +536,21 @@ export default function Hero3D({ onTalkClick }: any) {
     window.addEventListener("mousemove", onMouseMove);
 
     return () => {
-      cleanup.then?.((fn) => fn?.());
+      cleanup.then?.((fn: any) => fn?.());
       window.removeEventListener("mousemove", onMouseMove);
     };
   }, [onMouseMove]);
 
-  /* ════════════════════════════════════════════════════════════════════════
-     RENDER
-     ════════════════════════════════════════════════════════════════════════ */
+  // ════════════════════════════════════════════════════════════════════════
+  // RENDER
+  // ════════════════════════════════════════════════════════════════════════
   return (
     <section style={sx.hero}>
-      {/* Ambient background glow */}
       <div style={sx.bgGlow} />
 
-      <div style={sx.container}>
-        {/* ── LEFT: Content ── */}
-        <div style={sx.content}>
+      <div style={sx.container} className="hero3d-container">
+        {/* ── LEFT ── */}
+        <div>
           <motion.div
             style={sx.greeting}
             initial={{ opacity: 0, x: -30 }}
@@ -628,8 +602,9 @@ export default function Hero3D({ onTalkClick }: any) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
+            className="hero3d-actions"
           >
-            <button style={sx.talkBtn} onClick={onTalkClick}>
+            <button style={sx.talkBtn} onClick={onTalkClick} className="hero3d-talkBtn">
               <span style={sx.talkPulse} />
               <svg
                 width="18"
@@ -646,25 +621,24 @@ export default function Hero3D({ onTalkClick }: any) {
               </svg>
               Talk with Me
             </button>
-
-            <a href="#projects" style={sx.secondaryBtn}>
+            <a href="#projects" style={sx.secondaryBtn} className="hero3d-secondaryBtn">
               View Projects <span style={sx.arrow}>↓</span>
             </a>
           </motion.div>
         </div>
 
-        {/* ── RIGHT: Three.js Canvas ── */}
+        {/* ── RIGHT: Three.js ── */}
         <motion.div
           style={sx.vizWrapper}
+          className="hero3d-vizWrapper"
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <div ref={mountRef} style={sx.canvasMount} />
 
-          {/* Floating metric cards (HTML overlay) */}
           <motion.div
-            style={{ ...sx.metricCard, top: "5%", right: "0%" }}
+            style={{ ...sx.metricCard, top: "5%", right: "0%" } as any}
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
@@ -678,14 +652,9 @@ export default function Hero3D({ onTalkClick }: any) {
           </motion.div>
 
           <motion.div
-            style={{ ...sx.metricCard, top: "44%", right: "-8%" }}
+            style={{ ...sx.metricCard, top: "44%", right: "-8%" } as any}
             animate={{ y: [0, -8, 0] }}
-            transition={{
-              duration: 4.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.8,
-            }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
           >
             <span style={{ ...sx.metricDot, background: AMBER_HEX }} />
             <div>
@@ -695,14 +664,9 @@ export default function Hero3D({ onTalkClick }: any) {
           </motion.div>
 
           <motion.div
-            style={{ ...sx.metricCard, bottom: "10%", left: "-6%" }}
+            style={{ ...sx.metricCard, bottom: "10%", left: "-6%" } as any}
             animate={{ y: [0, -5, 0] }}
-            transition={{
-              duration: 3.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1.4,
-            }}
+            transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
           >
             <span style={{ ...sx.metricDot, background: BLUE_HEX }} />
             <div>
@@ -715,7 +679,6 @@ export default function Hero3D({ onTalkClick }: any) {
         </motion.div>
       </div>
 
-      {/* ── Scroll indicator ── */}
       <motion.div
         style={sx.scrollIndicator}
         initial={{ opacity: 0 }}
@@ -726,7 +689,6 @@ export default function Hero3D({ onTalkClick }: any) {
         <span style={sx.scrollText}>Scroll</span>
       </motion.div>
 
-      {/* Inline keyframes */}
       <style>{`
         @keyframes hero3d-pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
@@ -752,17 +714,20 @@ export default function Hero3D({ onTalkClick }: any) {
             gap: 40px !important;
           }
           .hero3d-vizWrapper { display: none !important; }
-          .hero3d-actions { flex-direction: column !important; align-items: flex-start !important; }
+          .hero3d-actions {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
         }
       `}</style>
     </section>
   );
 }
 
-/* ════════════════════════════════════════════════════════════════════════════
-   STYLES (inline JS objects – matching your CSS variables / theme)
-   ════════════════════════════════════════════════════════════════════════════ */
-const sx = {
+// ════════════════════════════════════════════════════════════════════════════
+// STYLES
+// ════════════════════════════════════════════════════════════════════════════
+const sx: Record<string, React.CSSProperties> = {
   hero: {
     minHeight: "100vh",
     display: "flex",
@@ -792,18 +757,13 @@ const sx = {
     position: "relative",
     zIndex: 1,
   },
-  content: {},
   greeting: {
     display: "flex",
     alignItems: "center",
     gap: 14,
     marginBottom: 22,
   },
-  greetLine: {
-    width: 28,
-    height: 1,
-    background: TEAL_HEX,
-  },
+  greetLine: { width: 28, height: 1, background: TEAL_HEX },
   greetText: {
     fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
     fontSize: "0.7rem",
@@ -822,26 +782,20 @@ const sx = {
     marginBottom: 28,
   },
   nameOutline: {
-    fontStyle: "normal",
     fontWeight: 400,
     display: "block",
     color: "transparent",
     WebkitTextStroke: `2px ${TEAL_HEX}`,
     letterSpacing: "-0.02em",
   },
-  roles: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 8,
-    marginBottom: 28,
-  },
+  roles: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 28 },
   roleChip: {
     fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
     fontSize: "0.65rem",
     letterSpacing: "0.12em",
     textTransform: "uppercase",
     padding: "6px 14px",
-    border: `1px solid rgba(26,37,48,1)`,
+    border: "1px solid rgba(26,37,48,1)",
     color: TEXT_DIM,
     background: "rgba(0,212,170,0.06)",
     borderRadius: 2,
@@ -853,11 +807,7 @@ const sx = {
     maxWidth: 500,
     marginBottom: 44,
   },
-  actions: {
-    display: "flex",
-    alignItems: "center",
-    gap: 20,
-  },
+  actions: { display: "flex", alignItems: "center", gap: 20 },
   talkBtn: {
     display: "inline-flex",
     alignItems: "center",
@@ -897,7 +847,7 @@ const sx = {
     letterSpacing: "0.1em",
     textTransform: "uppercase",
     color: TEXT_DIM,
-    border: `1px solid rgba(26,37,48,1)`,
+    border: "1px solid rgba(26,37,48,1)",
     transition: "all 0.3s ease",
     borderRadius: 2,
     textDecoration: "none",
@@ -910,18 +860,14 @@ const sx = {
     alignItems: "center",
     height: 500,
   },
-  canvasMount: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 4,
-  },
+  canvasMount: { width: "100%", height: "100%", borderRadius: 4 },
   metricCard: {
     position: "absolute",
     display: "flex",
     alignItems: "center",
     gap: 10,
-    background: "rgba(17,24,32,0.92)",
-    border: `1px solid rgba(26,37,48,1)`,
+    background: "rgba(10,15,20,0.88)",
+    border: "1px solid rgba(26,37,48,1)",
     padding: "10px 14px",
     borderRadius: 4,
     minWidth: 128,
@@ -944,11 +890,7 @@ const sx = {
     color: TEXT,
     lineHeight: 1.2,
   },
-  metricSmall: {
-    fontSize: "0.6rem",
-    color: TEXT_MUTED,
-    fontWeight: 400,
-  },
+  metricSmall: { fontSize: "0.6rem", color: TEXT_MUTED, fontWeight: 400 },
   metricLabel: {
     display: "block",
     fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
