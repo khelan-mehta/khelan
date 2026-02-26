@@ -282,7 +282,7 @@
 }
 
 .speakingBubble {
-  border-color: rgba(255, 255, 255, 0.25); /* or a subtle glow */
+  border-color: rgba(255, 255, 255, 0.25);
   box-shadow: 0 0 12px rgba(120, 180, 255, 0.15);
 }
 
@@ -292,4 +292,31 @@
   transform-origin: left;
   border-radius: 1px;
   margin-top: 4px;
+}
+
+/* ── Speaking bars indicator ─────────────────────────────────────────────────── */
+.speakingBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  padding: 2px 0;
+}
+
+.speakingBars span {
+  width: 3px;
+  background: #00d4aa;
+  border-radius: 2px;
+  animation: speakingWave 0.9s ease-in-out infinite;
+}
+
+.speakingBars span:nth-child(1) { height: 7px;  animation-delay: 0.00s; }
+.speakingBars span:nth-child(2) { height: 14px; animation-delay: 0.12s; }
+.speakingBars span:nth-child(3) { height: 10px; animation-delay: 0.24s; }
+.speakingBars span:nth-child(4) { height: 16px; animation-delay: 0.08s; }
+.speakingBars span:nth-child(5) { height: 8px;  animation-delay: 0.18s; }
+
+@keyframes speakingWave {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.45; }
+  50%       { transform: scaleY(1);   opacity: 1; }
 }

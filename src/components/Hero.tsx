@@ -545,7 +545,7 @@ export default function Hero3D({ onTalkClick }: { onTalkClick: () => void }) {
   // RENDER
   // ════════════════════════════════════════════════════════════════════════
   return (
-    <section style={sx.hero}>
+    <section style={sx.hero} className="hero3d-section">
       <div style={sx.bgGlow} />
 
       <div style={sx.container} className="hero3d-container">
@@ -707,16 +707,41 @@ export default function Hero3D({ onTalkClick }: { onTalkClick: () => void }) {
           border-color: ${TEAL_HEX} !important;
           background: rgba(0,212,170,0.06) !important;
         }
+
+        /* ── Mobile ──────────────────────────────────────────────────── */
         @media (max-width: 768px) {
+          .hero3d-section {
+            align-items: flex-start !important;
+          }
           .hero3d-container {
             grid-template-columns: 1fr !important;
-            padding: 130px 24px 0 !important;
-            gap: 40px !important;
+            padding: 110px 24px 96px !important;
+            gap: 0 !important;
+            align-items: start !important;
           }
           .hero3d-vizWrapper { display: none !important; }
           .hero3d-actions {
             flex-direction: column !important;
-            align-items: flex-start !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            width: 100% !important;
+          }
+          .hero3d-talkBtn {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+          }
+          .hero3d-secondaryBtn {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+          }
+        }
+
+        /* ── Small phones ────────────────────────────────────────────── */
+        @media (max-width: 480px) {
+          .hero3d-container {
+            padding: 90px 16px 80px !important;
           }
         }
       `}</style>

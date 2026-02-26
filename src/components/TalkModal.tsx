@@ -46,6 +46,22 @@ export default function TalkModal({
   const sourceCreatedRef = useRef(false)
   const currentBlobUrlRef = useRef<string | null>(null)
 
+  // ── Pending message (revealed only after speech ends) ────────────────────────
+  const pendingMsgRef = useRef<Message | null>(null)
+  const [hasPendingMsg, setHasPendingMsg] = useState(false)
+
+  // Stable ref updated every render so audio event listeners always call the
+  // latest reveal function without stale closure issues.
+  const revealPendingRef = useRef<() => void>(() => {})
+  revealPendingRef.current = () => {
+    const pending = pendingMsgRef.current
+    if (pending) {
+      pendingMsgRef.current = null
+      setHasPendingMsg(false)
+      setMessages((prev) => [...prev, pending])
+    }
+  }
+
   // ── Initialise Web Audio pipeline ───────────────────────────────────────────
   const initAudioPipeline = useCallback(() => {
     if (audioCtxRef.current) return // already set up
@@ -74,13 +90,17 @@ export default function TalkModal({
     audio.addEventListener('play', () => setIsSpeaking(true))
     audio.addEventListener('ended', () => {
       setIsSpeaking(false)
+      revealPendingRef.current()
       if (currentBlobUrlRef.current) {
         URL.revokeObjectURL(currentBlobUrlRef.current)
         currentBlobUrlRef.current = null
       }
     })
     audio.addEventListener('pause', () => setIsSpeaking(false))
-    audio.addEventListener('error', () => setIsSpeaking(false))
+    audio.addEventListener('error', () => {
+      setIsSpeaking(false)
+      revealPendingRef.current()
+    })
   }, [])
 
   // ── Generate TTS and play ────────────────────────────────────────────────────
@@ -114,8 +134,9 @@ export default function TalkModal({
           await audioRef.current.play()
         }
       } catch {
-        // TTS is non-critical — fail silently so chat still works
+        // TTS is non-critical — fail silently, but reveal any pending text
         setIsSpeaking(false)
+        revealPendingRef.current()
       }
     },
     [ttsEnabled]
@@ -128,6 +149,7 @@ export default function TalkModal({
       audioRef.current.currentTime = 0
     }
     setIsSpeaking(false)
+    revealPendingRef.current()
   }, [])
 
   // ── Modal open / close ───────────────────────────────────────────────────────
@@ -185,11 +207,16 @@ export default function TalkModal({
         timestamp: new Date(),
       }
 
-      setMessages((prev) => [...prev, assistantMessage])
       setIsLoading(false)
 
-      // Speak the response in parallel with rendering the text
-      speakText(reply)
+      if (ttsEnabled) {
+        // Hide text until voice finishes — revealed by the audio 'ended' event
+        pendingMsgRef.current = assistantMessage
+        setHasPendingMsg(true)
+        speakText(reply)
+      } else {
+        setMessages((prev) => [...prev, assistantMessage])
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -306,6 +333,22 @@ export default function TalkModal({
                   </span>
                 </motion.div>
               ))}
+
+              {/* Speaking bars — shown while voice plays, before text is revealed */}
+              {hasPendingMsg && isSpeaking && (
+                <motion.div
+                  className={`${styles.message} ${styles.assistant}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <div className={styles.messageBubble}>
+                    <div className={styles.speakingBars}>
+                      <span /><span /><span /><span /><span />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
 
               {isLoading && (
                 <motion.div
