@@ -27,8 +27,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
-    /* Remove type restrictions */
-    "types": [],
+    /* Auto-discover types */
 
     /* Path alias */
     "baseUrl": ".",

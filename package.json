@@ -9,6 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@react-spring/three": "^9.7.5",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "@react-three/postprocessing": "^2.19.1",
     "axios": "^1.7.0",
     "framer-motion": "^11.3.0",
     "lucide-react": "^0.400.0",
@@ -16,7 +21,9 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.26.0",
-    "three": "^0.183.1"
+    "three": "^0.183.1",
+    "tunnel-rat": "^0.1.2",
+    "zustand": "^4.5.7"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

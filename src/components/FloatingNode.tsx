@@ -264,8 +264,9 @@ export default function FloatingNode({ onNodeClick }: Props) {
       ctx.fillStyle = `rgba(${rgb},${labelAlpha * 0.55})`
       ctx.fillText('click to explore · knowledge graph', nx, subY)
 
-      /* ── Philosophy scroll text (hover-triggered, DOM element) ── */
-      const isHov = hoveringRef.current
+      /* ── Philosophy scroll text (proximity-triggered, DOM element) ── */
+      const distToMouse = Math.sqrt((nx - mx) ** 2 + (ny - my) ** 2)
+      const isHov = distToMouse < nr * 4
       if (isHov && !wasHovering && !scrollText) {
         scrollText = {
           text: THOUGHTS[thoughtIdx % THOUGHTS.length],
@@ -293,7 +294,7 @@ export default function FloatingNode({ onNodeClick }: Props) {
 
           const fadeIn = Math.min(1, life * 8)
           const fadeOut = Math.min(1, (1 - life) * 8)
-          const alpha = fadeIn * fadeOut * 0.22
+          const alpha = fadeIn * fadeOut * 0.45
 
           el.style.transform = `translateX(${x}px)`
           el.style.opacity = `${alpha}`
@@ -336,7 +337,7 @@ export default function FloatingNode({ onNodeClick }: Props) {
           left: 0,
           whiteSpace: 'nowrap',
           pointerEvents: 'none',
-          zIndex: 3,
+          zIndex: 5,
           fontFamily: 'var(--font-display)',
           fontWeight: 300,
           fontSize: 'clamp(100px, 18vw, 350px)',
