@@ -1,401 +1,371 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import axios from 'axios'
-import styles from './TalkModal.module.css'
+import { X, Send, Volume2, VolumeX } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import SoundVisualizer from './SoundVisualizer'
+
+const API_BASE = 'https://portfoliobe-ebon.vercel.app'
 
 interface Message {
   role: 'user' | 'assistant'
   content: string
-  timestamp: Date
 }
 
-const API_BASE = "https://portfoliobe-ebon.vercel.app"
-
-// ─── Audio pipeline helpers ────────────────────────────────────────────────────
-// We create one AudioContext and one AnalyserNode for the lifetime of the modal.
-// The MediaElementAudioSourceNode wraps the <audio> element and can only be
-// created once per element, so we guard with a ref flag.
-
-export default function TalkModal({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean
+interface TalkModalProps {
+  open: boolean
   onClose: () => void
-}) {
-  // ── Chat state ───────────────────────────────────────────────────────────────
+}
+
+export default function TalkModal({ open, onClose }: TalkModalProps) {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-
-  // ── Voice / TTS state ────────────────────────────────────────────────────────
-  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [ttsEnabled, setTtsEnabled] = useState(true)
+  const [visualizerState, setVisualizerState] = useState<'idle' | 'thinking' | 'speaking'>('idle')
+  const [pendingText, setPendingText] = useState<string | null>(null)
 
-  // ── Refs ─────────────────────────────────────────────────────────────────────
+  const analyserRef = useRef<AnalyserNode | null>(null)
+  const audioContextRef = useRef<AudioContext | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Hidden <audio> element for TTS playback
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-
-  // Web Audio pipeline (stable across renders)
-  const audioCtxRef = useRef<AudioContext | null>(null)
-  const analyserRef = useRef<AnalyserNode | null>(null)
-  const sourceCreatedRef = useRef(false)
-  const currentBlobUrlRef = useRef<string | null>(null)
-
-  // ── Pending message (revealed only after speech ends) ────────────────────────
-  const pendingMsgRef = useRef<Message | null>(null)
-  const [hasPendingMsg, setHasPendingMsg] = useState(false)
-
-  // Stable ref updated every render so audio event listeners always call the
-  // latest reveal function without stale closure issues.
-  const revealPendingRef = useRef<() => void>(() => {})
-  revealPendingRef.current = () => {
-    const pending = pendingMsgRef.current
-    if (pending) {
-      pendingMsgRef.current = null
-      setHasPendingMsg(false)
-      setMessages((prev) => [...prev, pending])
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // ── Initialise Web Audio pipeline ───────────────────────────────────────────
-  const initAudioPipeline = useCallback(() => {
-    if (audioCtxRef.current) return // already set up
-
-    const audio = new Audio()
-    audio.crossOrigin = 'anonymous'
-    audioRef.current = audio
-
-    const ctx = new AudioContext()
-    const analyser = ctx.createAnalyser()
-    analyser.fftSize = 256
-    analyser.smoothingTimeConstant = 0.82
-    analyser.connect(ctx.destination)
-
-    audioCtxRef.current = ctx
-    analyserRef.current = analyser
-
-    // Connect the <audio> element to the analyser (only once)
-    if (!sourceCreatedRef.current) {
-      const source = ctx.createMediaElementSource(audio)
-      source.connect(analyser)
-      sourceCreatedRef.current = true
-    }
-
-    // Wire playback events
-    audio.addEventListener('play', () => setIsSpeaking(true))
-    audio.addEventListener('ended', () => {
-      setIsSpeaking(false)
-      revealPendingRef.current()
-      if (currentBlobUrlRef.current) {
-        URL.revokeObjectURL(currentBlobUrlRef.current)
-        currentBlobUrlRef.current = null
-      }
-    })
-    audio.addEventListener('pause', () => setIsSpeaking(false))
-    audio.addEventListener('error', () => {
-      setIsSpeaking(false)
-      revealPendingRef.current()
-    })
-  }, [])
-
-  // ── Generate TTS and play ────────────────────────────────────────────────────
-  const speakText = useCallback(
-    async (text: string) => {
-      if (!ttsEnabled) return
-
-      try {
-        // Resume AudioContext if browser suspended it (autoplay policy)
-        if (audioCtxRef.current?.state === 'suspended') {
-          await audioCtxRef.current.resume()
-        }
-
-        const response = await axios.post(
-          `${API_BASE}/api/tts`,
-          { text },
-          { responseType: 'blob', timeout: 30000 }
-        )
-
-        const blob = new Blob([response.data], { type: 'audio/mpeg' })
-        const url = URL.createObjectURL(blob)
-
-        // Revoke any previously pending blob URL
-        if (currentBlobUrlRef.current) {
-          URL.revokeObjectURL(currentBlobUrlRef.current)
-        }
-        currentBlobUrlRef.current = url
-
-        if (audioRef.current) {
-          audioRef.current.src = url
-          await audioRef.current.play()
-        }
-      } catch {
-        // TTS is non-critical — fail silently, but reveal any pending text
-        setIsSpeaking(false)
-        revealPendingRef.current()
-      }
-    },
-    [ttsEnabled]
-  )
-
-  // ── Stop any in-progress audio ───────────────────────────────────────────────
-  const stopSpeaking = useCallback(() => {
-    if (audioRef.current && !audioRef.current.paused) {
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-    }
-    setIsSpeaking(false)
-    revealPendingRef.current()
-  }, [])
-
-  // ── Modal open / close ───────────────────────────────────────────────────────
   useEffect(() => {
-    if (isOpen) {
-      initAudioPipeline()
-      inputRef.current?.focus()
-      if (messages.length === 0) {
-        const greeting: Message = {
-          role: 'assistant',
-          content:
-            "Hey! I'm Khelan's AI avatar. Ask me anything about his work in energy modeling, sustainability, full-stack development, or just chat! I'll respond as Khelan would.",
-          timestamp: new Date(),
-        }
-        setMessages([greeting])
-        // Speak the greeting
-        setTimeout(() => speakText(greeting.content), 600)
-      }
-    } else {
-      stopSpeaking()
-    }
-  }, [isOpen]) // intentional: only fire on open/close
+    scrollToBottom()
+  }, [messages, pendingText])
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  // ── Send message ─────────────────────────────────────────────────────────────
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return
-
-    stopSpeaking()
-
-    const userMessage: Message = {
-      role: 'user',
-      content: input.trim(),
-      timestamp: new Date(),
+    if (open && messages.length === 0) {
+      greet()
     }
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 300)
+    }
+  }, [open])
 
-    setMessages((prev) => [...prev, userMessage])
-    setInput('')
-    setIsLoading(true)
+  const ensureAudioContext = () => {
+    if (!audioContextRef.current) {
+      const ctx = new AudioContext()
+      const analyser = ctx.createAnalyser()
+      analyser.fftSize = 256
+      analyserRef.current = analyser
+      audioContextRef.current = ctx
+    }
+    if (audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume()
+    }
+    return { ctx: audioContextRef.current, analyser: analyserRef.current! }
+  }
 
+  const playTTS = useCallback(async (text: string) => {
+    if (!ttsEnabled) return
     try {
-      const res = await axios.post(`${API_BASE}/api/chat`, {
-        message: userMessage.content,
-        history: messages.map((m) => ({ role: m.role, content: m.content })),
+      const { ctx, analyser } = ensureAudioContext()
+      setVisualizerState('speaking')
+
+      const res = await fetch(`${API_BASE}/api/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
       })
 
-      const reply: string = res.data.reply
+      const arrayBuffer = await res.arrayBuffer()
+      const audioBuffer = await ctx.decodeAudioData(arrayBuffer)
+      const source = ctx.createBufferSource()
+      source.buffer = audioBuffer
+      source.connect(analyser)
+      analyser.connect(ctx.destination)
 
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: reply,
-        timestamp: new Date(),
+      source.onended = () => {
+        setVisualizerState('idle')
+        if (pendingText) {
+          setPendingText(null)
+        }
       }
 
-      setIsLoading(false)
-
-      if (ttsEnabled) {
-        // Hide text until voice finishes — revealed by the audio 'ended' event
-        pendingMsgRef.current = assistantMessage
-        setHasPendingMsg(true)
-        speakText(reply)
-      } else {
-        setMessages((prev) => [...prev, assistantMessage])
-      }
+      source.start(0)
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content:
-            "Hmm, I'm having trouble connecting right now. Make sure the backend server is running on port 3001 and your OpenAI API key is configured.",
-          timestamp: new Date(),
-        },
-      ])
-      setIsLoading(false)
+      setVisualizerState('idle')
+    }
+  }, [ttsEnabled, pendingText])
+
+  const greet = async () => {
+    setLoading(true)
+    setVisualizerState('thinking')
+    try {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Hello!', history: [] }),
+      })
+      const data = await res.json()
+      const reply = data.reply || 'Hi there!'
+      setMessages([{ role: 'assistant', content: reply }])
+      playTTS(reply)
+    } catch {
+      setMessages([{ role: 'assistant', content: 'Hello! How can I help you today?' }])
+      setVisualizerState('idle')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return
+    const userMsg: Message = { role: 'user', content: input.trim() }
+    const newMessages = [...messages, userMsg]
+    setMessages(newMessages)
+    setInput('')
+    setLoading(true)
+    setVisualizerState('thinking')
+
+    try {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMsg.content,
+          history: newMessages.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      })
+      const data = await res.json()
+      const reply = data.reply || "Sorry, I couldn't understand that."
+      setMessages([...newMessages, { role: 'assistant', content: reply }])
+      playTTS(reply)
+    } catch {
+      setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
+      setVisualizerState('idle')
+    } finally {
+      setLoading(false)
     }
   }
 
-  // ── Render ───────────────────────────────────────────────────────────────────
   return (
     <AnimatePresence>
-      {isOpen && (
+      {open && (
         <motion.div
-          className={styles.overlay}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(8px)',
+          }}
           onClick={onClose}
         >
           <motion.div
-            className={styles.modal}
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: 480,
+              maxHeight: '80vh',
+              background: 'var(--white)',
+              borderRadius: 16,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              border: '1px solid var(--gray-200)',
+              boxShadow: '0 24px 80px rgba(0,0,0,0.12)',
+              margin: 16,
+            }}
           >
-            {/* ── Header ─────────────────────────────────────────────────────── */}
-            <div className={styles.header}>
-              <div className={styles.headerLeft}>
-                <div
-                  className={`${styles.statusDot} ${isSpeaking ? styles.speaking : isLoading ? styles.loading : ''
-                    }`}
-                />
-                <div>
-                  <h3 className={styles.headerTitle}>Talk with Khelan</h3>
-                  <p className={styles.headerSub}>
-                    {isSpeaking ? 'speaking…' : isLoading ? 'thinking…' : 'AI-powered conversation'}
-                  </p>
-                </div>
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '20px 24px',
+                borderBottom: '1px solid var(--gray-100)',
+              }}
+            >
+              <div>
+                <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--black)', fontFamily: 'var(--font-display)' }}>
+                  Khelan's AI
+                </h3>
+                <span style={{ fontSize: 12, color: 'var(--gray-400)' }}>Ask me anything</span>
               </div>
-
-              <div className={styles.headerRight}>
-                {/* TTS toggle */}
+              <div style={{ display: 'flex', gap: 8 }}>
                 <button
-                  className={`${styles.ttsToggle} ${ttsEnabled ? styles.ttsOn : ''}`}
-                  onClick={() => {
-                    if (ttsEnabled) stopSpeaking()
-                    setTtsEnabled((v) => !v)
+                  onClick={() => setTtsEnabled(!ttsEnabled)}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 8,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid var(--gray-200)',
+                    background: 'transparent',
+                    color: ttsEnabled ? 'var(--black)' : 'var(--gray-400)',
+                    transition: 'border-color 0.2s',
                   }}
-                  title={ttsEnabled ? 'Voice on — click to mute' : 'Voice off — click to enable'}
                 >
-                  {ttsEnabled ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                    </svg>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                      <line x1="23" y1="9" x2="17" y2="15" />
-                      <line x1="17" y1="9" x2="23" y2="15" />
-                    </svg>
-                  )}
+                  {ttsEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
                 </button>
-
-                <button className={styles.closeBtn} onClick={onClose}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
+                <button
+                  onClick={onClose}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 8,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid var(--gray-200)',
+                    background: 'transparent',
+                    color: 'var(--gray-500)',
+                    transition: 'border-color 0.2s',
+                  }}
+                >
+                  <X size={16} />
                 </button>
               </div>
             </div>
 
-            {/* ── Sound Visualizer (replaces video) ────────────────────────── */}
-            <SoundVisualizer
-              analyserNode={analyserRef.current}
-              isLoading={isLoading}
-              isSpeaking={isSpeaking}
-            />
+            {/* Visualizer */}
+            <div style={{ borderBottom: '1px solid var(--gray-100)', background: 'var(--gray-50)' }}>
+              <SoundVisualizer analyser={analyserRef.current} state={visualizerState} />
+            </div>
 
-            {/* ── Messages ───────────────────────────────────────────────────── */}
-            <div className={styles.messages}>
+            {/* Messages */}
+            <div
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '20px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                minHeight: 200,
+              }}
+            >
               {messages.map((msg, i) => (
-                <motion.div
+                <div
                   key={i}
-                  className={`${styles.message} ${styles[msg.role]}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  style={{
+                    display: 'flex',
+                    justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                  }}
                 >
-                  <div className={styles.messageBubble}>{msg.content}</div>
-                  <span className={styles.messageTime}>
-                    {msg.timestamp.toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </span>
-                </motion.div>
+                  <div
+                    style={{
+                      maxWidth: '80%',
+                      padding: '12px 16px',
+                      borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                      background: msg.role === 'user' ? 'var(--black)' : 'var(--gray-100)',
+                      color: msg.role === 'user' ? 'var(--white)' : 'var(--black)',
+                      fontSize: 14,
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {msg.role === 'assistant' ? (
+                      <ReactMarkdown
+                        components={{
+                          p: ({ children }) => <p style={{ margin: 0 }}>{children}</p>,
+                          code: ({ children }) => (
+                            <code
+                              style={{
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: 12,
+                                background: 'var(--gray-200)',
+                                padding: '2px 6px',
+                                borderRadius: 4,
+                              }}
+                            >
+                              {children}
+                            </code>
+                          ),
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
+                    ) : (
+                      msg.content
+                    )}
+                  </div>
+                </div>
               ))}
-
-              {/* Speaking bars — shown while voice plays, before text is revealed */}
-              {hasPendingMsg && isSpeaking && (
-                <motion.div
-                  className={`${styles.message} ${styles.assistant}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <div className={styles.messageBubble}>
-                    <div className={styles.speakingBars}>
-                      <span /><span /><span /><span /><span />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {isLoading && (
-                <motion.div
-                  className={`${styles.message} ${styles.assistant}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <div className={styles.messageBubble}>
-                    <div className={styles.typing}>
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                  </div>
-                </motion.div>
+              {loading && (
+                <div style={{ display: 'flex', gap: 4, padding: '8px 0' }}>
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      animate={{ opacity: [0.3, 1, 0.3] }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: '50%',
+                        background: 'var(--gray-400)',
+                      }}
+                    />
+                  ))}
+                </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
-            {/* ── Input ──────────────────────────────────────────────────────── */}
-            <div className={styles.inputSection}>
+            {/* Input */}
+            <div
+              style={{
+                padding: '16px 24px',
+                borderTop: '1px solid var(--gray-100)',
+                display: 'flex',
+                gap: 8,
+              }}
+            >
               <input
                 ref={inputRef}
-                type="text"
-                className={styles.input}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask me anything…"
-                disabled={isLoading}
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                placeholder="Type a message..."
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: 10,
+                  border: '1px solid var(--gray-200)',
+                  fontSize: 14,
+                  fontFamily: 'var(--font-body)',
+                  outline: 'none',
+                  background: 'var(--gray-50)',
+                  transition: 'border-color 0.2s',
+                }}
+                onFocus={(e) => (e.target.style.borderColor = 'var(--gray-400)')}
+                onBlur={(e) => (e.target.style.borderColor = 'var(--gray-200)')}
               />
               <button
-                className={styles.sendBtn}
-                onClick={handleSend}
-                disabled={!input.trim() || isLoading}
+                onClick={sendMessage}
+                disabled={!input.trim() || loading}
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 10,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: input.trim() ? 'var(--black)' : 'var(--gray-200)',
+                  color: input.trim() ? 'var(--white)' : 'var(--gray-400)',
+                  transition: 'background 0.2s, color 0.2s',
+                  flexShrink: 0,
+                }}
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
+                <Send size={16} />
               </button>
             </div>
           </motion.div>

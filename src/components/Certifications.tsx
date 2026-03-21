@@ -1,55 +1,80 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import styles from './Certifications.module.css'
 
-const certs = [
-  { name: 'LEED AP BD+C', issuer: 'U.S. Green Building Council', date: 'Dec 2025' },
-  { name: 'LEED Green Associate', issuer: 'U.S. Green Building Council', date: 'Aug 2025' },
-  { name: 'ESG Performance Measurement', issuer: 'Alison', date: 'Sep 2025' },
-  { name: 'Life Cycle Assessment (LCA)', issuer: 'Ecochain', date: 'Sep 2025' },
-  { name: 'CSRD Fundamentals Level 1', issuer: 'CSRD Institute', date: 'Sep 2025' },
+const certifications = [
+  { name: 'LEED AP BD+C', org: 'USGBC' },
+  { name: 'LEED Green Associate', org: 'USGBC' },
+  { name: 'ESG Certified', org: 'CFA Institute' },
+  { name: 'Life Cycle Assessment', org: 'UNEP' },
+  { name: 'CSRD Reporting', org: 'EU Standards' },
 ]
+
+const ease = [0.16, 1, 0.3, 1] as const
 
 export default function Certifications() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section className={styles.certs} ref={ref}>
-      <div className={styles.container}>
+    <section className="section" ref={ref} style={{ background: '#000' }}>
+      <div className="container">
         <motion.div
-          className={styles.label}
-          initial={{ opacity: 0, x: -20 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className={styles.labelLine} />
-          <span className={styles.labelText}>05 / Certifications</span>
-        </motion.div>
-
-        <motion.h2
-          className={styles.title}
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, ease }}
         >
-          <em>Certifications</em>
-        </motion.h2>
+          <span className="section-label">05 — Credentials</span>
+          <h2 className="section-title">Certifications</h2>
+        </motion.div>
 
-        <div className={styles.list}>
-          {certs.map((cert, i) => (
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 10,
+            marginTop: 12,
+          }}
+        >
+          {certifications.map((cert, i) => (
             <motion.div
               key={cert.name}
-              className={styles.item}
-              initial={{ opacity: 0, x: -20 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 * i + 0.3 }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.06 * i, ease }}
+              style={{
+                padding: '16px 24px',
+                border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: 4,
+                transition: 'border-color 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+              }}
             >
-              <div className={styles.itemLeft}>
-                <span className={styles.itemName}>{cert.name}</span>
-                <span className={styles.itemIssuer}>{cert.issuer}</span>
-              </div>
-              <span className={styles.itemDate}>{cert.date}</span>
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: '#fff',
+                  display: 'block',
+                  marginBottom: 3,
+                }}
+              >
+                {cert.name}
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  letterSpacing: '0.06em',
+                  color: 'rgba(255,255,255,0.2)',
+                }}
+              >
+                {cert.org}
+              </span>
             </motion.div>
           ))}
         </div>

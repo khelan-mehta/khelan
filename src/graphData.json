@@ -1,0 +1,2391 @@
+{
+  "nodes": [
+    {
+      "id": "person",
+      "label": "Khelan Mehta",
+      "type": "person",
+      "weight": 10,
+      "metadata": {
+        "bio": "Software Engineer",
+        "location": "India"
+      }
+    },
+    {
+      "id": "repo-accathon",
+      "label": "accathon",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/accathon"
+      }
+    },
+    {
+      "id": "repo-aiforbharat",
+      "label": "aiforbharat",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/aiforbharat"
+      }
+    },
+    {
+      "id": "repo-antifraud",
+      "label": "antifraud",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/antifraud"
+      }
+    },
+    {
+      "id": "repo-authBackend",
+      "label": "authBackend",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/authBackend"
+      }
+    },
+    {
+      "id": "repo-authSystem",
+      "label": "authSystem",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/authSystem"
+      }
+    },
+    {
+      "id": "repo-bh-server",
+      "label": "bh-server",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/bh-server"
+      }
+    },
+    {
+      "id": "repo-bi",
+      "label": "bi",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/bi"
+      }
+    },
+    {
+      "id": "repo-catalogueClient",
+      "label": "catalogueClient",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/catalogueClient"
+      }
+    },
+    {
+      "id": "repo-catalogueMainSever",
+      "label": "catalogueMainSever",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/catalogueMainSever"
+      }
+    },
+    {
+      "id": "repo-cataloguePython",
+      "label": "cataloguePython",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cataloguePython"
+      }
+    },
+    {
+      "id": "repo-cliDD",
+      "label": "cliDD",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cliDD"
+      }
+    },
+    {
+      "id": "repo-cookie",
+      "label": "cookie",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cookie"
+      }
+    },
+    {
+      "id": "repo-cookiebe",
+      "label": "cookiebe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cookiebe"
+      }
+    },
+    {
+      "id": "repo-cookiebk",
+      "label": "cookiebk",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cookiebk"
+      }
+    },
+    {
+      "id": "repo-cookiefe",
+      "label": "cookiefe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cookiefe"
+      }
+    },
+    {
+      "id": "repo-cookiegallery",
+      "label": "cookiegallery",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/cookiegallery"
+      }
+    },
+    {
+      "id": "repo-dd",
+      "label": "dd",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/dd"
+      }
+    },
+    {
+      "id": "repo-devbang",
+      "label": "devbang",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/devbang"
+      }
+    },
+    {
+      "id": "repo-dhwanilSIAMS",
+      "label": "dhwanilSIAMS",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/dhwanilSIAMS"
+      }
+    },
+    {
+      "id": "repo-diary-mate-alpha-phase1",
+      "label": "diary-mate-alpha-phase1",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/diary-mate-alpha-phase1"
+      }
+    },
+    {
+      "id": "repo-dream-fullill",
+      "label": "dream-fullill",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/dream-fullill"
+      }
+    },
+    {
+      "id": "repo-dsa",
+      "label": "dsa",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/dsa"
+      }
+    },
+    {
+      "id": "repo-equestRag",
+      "label": "equestRag",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/equestRag"
+      }
+    },
+    {
+      "id": "repo-ergo",
+      "label": "ergo",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/ergo"
+      }
+    },
+    {
+      "id": "repo-farmaCon",
+      "label": "farmaCon",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/farmaCon"
+      }
+    },
+    {
+      "id": "repo-fdC",
+      "label": "fdC",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/fdC"
+      }
+    },
+    {
+      "id": "repo-fdClient",
+      "label": "fdClient",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/fdClient"
+      }
+    },
+    {
+      "id": "repo-fdCliFinal",
+      "label": "fdCliFinal",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/fdCliFinal"
+      }
+    },
+    {
+      "id": "repo-fdServer",
+      "label": "fdServer",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/fdServer"
+      }
+    },
+    {
+      "id": "repo-fdServerFinal",
+      "label": "fdServerFinal",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/fdServerFinal"
+      }
+    },
+    {
+      "id": "repo-ifrs",
+      "label": "ifrs",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/ifrs"
+      }
+    },
+    {
+      "id": "repo-jbe",
+      "label": "jbe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/jbe"
+      }
+    },
+    {
+      "id": "repo-journalbe",
+      "label": "journalbe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/journalbe"
+      }
+    },
+    {
+      "id": "repo-khelan",
+      "label": "khelan",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/khelan"
+      }
+    },
+    {
+      "id": "repo-khelan-mehta.github.io",
+      "label": "khelan-mehta.github.io",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/khelan-mehta.github.io"
+      }
+    },
+    {
+      "id": "repo-kycfd",
+      "label": "kycfd",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/kycfd"
+      }
+    },
+    {
+      "id": "repo-leep-ap",
+      "label": "leep-ap",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/leep-ap"
+      }
+    },
+    {
+      "id": "repo-logicConverter",
+      "label": "logicConverter",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/logicConverter"
+      }
+    },
+    {
+      "id": "repo-mback",
+      "label": "mback",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mback"
+      }
+    },
+    {
+      "id": "repo-mbe",
+      "label": "mbe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mbe"
+      }
+    },
+    {
+      "id": "repo-mconnect",
+      "label": "mconnect",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mconnect"
+      }
+    },
+    {
+      "id": "repo-mentoAdmin",
+      "label": "mentoAdmin",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mentoAdmin"
+      }
+    },
+    {
+      "id": "repo-mfe2",
+      "label": "mfe2",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mfe2"
+      }
+    },
+    {
+      "id": "repo-mhbe",
+      "label": "mhbe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mhbe"
+      }
+    },
+    {
+      "id": "repo-mhfe",
+      "label": "mhfe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mhfe"
+      }
+    },
+    {
+      "id": "repo-money_laundering",
+      "label": "money_laundering",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/money_laundering"
+      }
+    },
+    {
+      "id": "repo-msfe",
+      "label": "msfe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/msfe"
+      }
+    },
+    {
+      "id": "repo-mt-server-alpha",
+      "label": "mt-server-alpha",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/mt-server-alpha"
+      }
+    },
+    {
+      "id": "repo-out-lg",
+      "label": "out-lg",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/out-lg"
+      }
+    },
+    {
+      "id": "repo-P1DD08082025",
+      "label": "P1DD08082025",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": "Training Project for Energy Modelling using eQuest Modelling Software",
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/P1DD08082025"
+      }
+    },
+    {
+      "id": "repo-portfolio",
+      "label": "portfolio",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/portfolio"
+      }
+    },
+    {
+      "id": "repo-portfolio-brownIon",
+      "label": "portfolio-brownIon",
+      "type": "repo",
+      "weight": 6,
+      "metadata": {
+        "description": null,
+        "stars": 2,
+        "url": "https://github.com/khelan-mehta/portfolio-brownIon"
+      }
+    },
+    {
+      "id": "repo-portfoliobe",
+      "label": "portfoliobe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/portfoliobe"
+      }
+    },
+    {
+      "id": "repo-prevoyanceId",
+      "label": "prevoyanceId",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/prevoyanceId"
+      }
+    },
+    {
+      "id": "repo-privateChat",
+      "label": "privateChat",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/privateChat"
+      }
+    },
+    {
+      "id": "repo-pyserver",
+      "label": "pyserver",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/pyserver"
+      }
+    },
+    {
+      "id": "repo-quizApp",
+      "label": "quizApp",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/quizApp"
+      }
+    },
+    {
+      "id": "repo-riyap",
+      "label": "riyap",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/riyap"
+      }
+    },
+    {
+      "id": "repo-riyaPo",
+      "label": "riyaPo",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/riyaPo"
+      }
+    },
+    {
+      "id": "repo-riyaProject",
+      "label": "riyaProject",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/riyaProject"
+      }
+    },
+    {
+      "id": "repo-riyaProject2",
+      "label": "riyaProject2",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/riyaProject2"
+      }
+    },
+    {
+      "id": "repo-robofestResources",
+      "label": "robofestResources",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/robofestResources"
+      }
+    },
+    {
+      "id": "repo-server",
+      "label": "server",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/server"
+      }
+    },
+    {
+      "id": "repo-serverDD",
+      "label": "serverDD",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/serverDD"
+      }
+    },
+    {
+      "id": "repo-shoppingcartbe",
+      "label": "shoppingcartbe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/shoppingcartbe"
+      }
+    },
+    {
+      "id": "repo-shoppingcartfe",
+      "label": "shoppingcartfe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/shoppingcartfe"
+      }
+    },
+    {
+      "id": "repo-shreeRadhe",
+      "label": "shreeRadhe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/shreeRadhe"
+      }
+    },
+    {
+      "id": "repo-shreeRadhePg",
+      "label": "shreeRadhePg",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/shreeRadhePg"
+      }
+    },
+    {
+      "id": "repo-siddharthdesai",
+      "label": "siddharthdesai",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/siddharthdesai"
+      }
+    },
+    {
+      "id": "repo-smpfe",
+      "label": "smpfe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/smpfe"
+      }
+    },
+    {
+      "id": "repo-spk",
+      "label": "spk",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/spk"
+      }
+    },
+    {
+      "id": "repo-spsfe",
+      "label": "spsfe",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/spsfe"
+      }
+    },
+    {
+      "id": "repo-srTemp",
+      "label": "srTemp",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/srTemp"
+      }
+    },
+    {
+      "id": "repo-stress-monitor-pro",
+      "label": "stress-monitor-pro",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/stress-monitor-pro"
+      }
+    },
+    {
+      "id": "repo-trialServer",
+      "label": "trialServer",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": "just a trial server",
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/trialServer"
+      }
+    },
+    {
+      "id": "repo-uploadApk",
+      "label": "uploadApk",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/uploadApk"
+      }
+    },
+    {
+      "id": "repo-Vaikunth",
+      "label": "Vaikunth",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": "animations",
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/Vaikunth"
+      }
+    },
+    {
+      "id": "repo-vk",
+      "label": "vk",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": "test-pushing",
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/vk"
+      }
+    },
+    {
+      "id": "repo-xaiEnergy",
+      "label": "xaiEnergy",
+      "type": "repo",
+      "weight": 4,
+      "metadata": {
+        "description": null,
+        "stars": 0,
+        "url": "https://github.com/khelan-mehta/xaiEnergy"
+      }
+    },
+    {
+      "id": "domain-frontend",
+      "label": "Frontend",
+      "type": "domain",
+      "weight": 8
+    },
+    {
+      "id": "domain-backend",
+      "label": "Backend",
+      "type": "domain",
+      "weight": 8
+    },
+    {
+      "id": "lang-TypeScript",
+      "label": "TypeScript",
+      "type": "language",
+      "weight": 10,
+      "metadata": {
+        "count": 35
+      }
+    },
+    {
+      "id": "lang-Python",
+      "label": "Python",
+      "type": "language",
+      "weight": 10,
+      "metadata": {
+        "count": 9
+      }
+    },
+    {
+      "id": "lang-JavaScript",
+      "label": "JavaScript",
+      "type": "language",
+      "weight": 10,
+      "metadata": {
+        "count": 16
+      }
+    },
+    {
+      "id": "lang-HTML",
+      "label": "HTML",
+      "type": "language",
+      "weight": 10,
+      "metadata": {
+        "count": 9
+      }
+    },
+    {
+      "id": "lang-C",
+      "label": "C",
+      "type": "language",
+      "weight": 3,
+      "metadata": {
+        "count": 1
+      }
+    },
+    {
+      "id": "lang-Rust",
+      "label": "Rust",
+      "type": "language",
+      "weight": 3,
+      "metadata": {
+        "count": 1
+      }
+    },
+    {
+      "id": "tool-Git",
+      "label": "Git",
+      "type": "tool",
+      "weight": 7
+    },
+    {
+      "id": "tool-Docker",
+      "label": "Docker",
+      "type": "tool",
+      "weight": 7
+    },
+    {
+      "id": "tool-React",
+      "label": "React",
+      "type": "tool",
+      "weight": 7
+    },
+    {
+      "id": "tool-Node.js",
+      "label": "Node.js",
+      "type": "tool",
+      "weight": 7
+    },
+    {
+      "id": "tool-Vite",
+      "label": "Vite",
+      "type": "tool",
+      "weight": 7
+    },
+    {
+      "id": "tool-TypeScript",
+      "label": "TypeScript",
+      "type": "tool",
+      "weight": 7
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-person-repo-accathon",
+      "source": "person",
+      "target": "repo-accathon",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-accathon",
+      "source": "domain-frontend",
+      "target": "repo-accathon",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-aiforbharat",
+      "source": "person",
+      "target": "repo-aiforbharat",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-antifraud",
+      "source": "person",
+      "target": "repo-antifraud",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-antifraud",
+      "source": "domain-backend",
+      "target": "repo-antifraud",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-authBackend",
+      "source": "person",
+      "target": "repo-authBackend",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-authBackend",
+      "source": "domain-frontend",
+      "target": "repo-authBackend",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-authSystem",
+      "source": "person",
+      "target": "repo-authSystem",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-authSystem",
+      "source": "domain-frontend",
+      "target": "repo-authSystem",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-bh-server",
+      "source": "person",
+      "target": "repo-bh-server",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-bh-server",
+      "source": "domain-frontend",
+      "target": "repo-bh-server",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-bi",
+      "source": "person",
+      "target": "repo-bi",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-bi",
+      "source": "domain-frontend",
+      "target": "repo-bi",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-catalogueClient",
+      "source": "person",
+      "target": "repo-catalogueClient",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-catalogueClient",
+      "source": "domain-frontend",
+      "target": "repo-catalogueClient",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-catalogueMainSever",
+      "source": "person",
+      "target": "repo-catalogueMainSever",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-catalogueMainSever",
+      "source": "domain-frontend",
+      "target": "repo-catalogueMainSever",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cataloguePython",
+      "source": "person",
+      "target": "repo-cataloguePython",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-cataloguePython",
+      "source": "domain-backend",
+      "target": "repo-cataloguePython",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cliDD",
+      "source": "person",
+      "target": "repo-cliDD",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-cliDD",
+      "source": "domain-frontend",
+      "target": "repo-cliDD",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cookie",
+      "source": "person",
+      "target": "repo-cookie",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-cookie",
+      "source": "domain-frontend",
+      "target": "repo-cookie",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cookiebe",
+      "source": "person",
+      "target": "repo-cookiebe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-cookiebe",
+      "source": "domain-frontend",
+      "target": "repo-cookiebe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cookiebk",
+      "source": "person",
+      "target": "repo-cookiebk",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-cookiebk",
+      "source": "domain-frontend",
+      "target": "repo-cookiebk",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cookiefe",
+      "source": "person",
+      "target": "repo-cookiefe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-cookiefe",
+      "source": "domain-frontend",
+      "target": "repo-cookiefe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-cookiegallery",
+      "source": "person",
+      "target": "repo-cookiegallery",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-cookiegallery",
+      "source": "domain-frontend",
+      "target": "repo-cookiegallery",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-dd",
+      "source": "person",
+      "target": "repo-dd",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-dd",
+      "source": "domain-frontend",
+      "target": "repo-dd",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-devbang",
+      "source": "person",
+      "target": "repo-devbang",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-devbang",
+      "source": "domain-frontend",
+      "target": "repo-devbang",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-dhwanilSIAMS",
+      "source": "person",
+      "target": "repo-dhwanilSIAMS",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-dhwanilSIAMS",
+      "source": "domain-frontend",
+      "target": "repo-dhwanilSIAMS",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-diary-mate-alpha-phase1",
+      "source": "person",
+      "target": "repo-diary-mate-alpha-phase1",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-diary-mate-alpha-phase1",
+      "source": "domain-frontend",
+      "target": "repo-diary-mate-alpha-phase1",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-dream-fullill",
+      "source": "person",
+      "target": "repo-dream-fullill",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-dream-fullill",
+      "source": "domain-frontend",
+      "target": "repo-dream-fullill",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-dsa",
+      "source": "person",
+      "target": "repo-dsa",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-equestRag",
+      "source": "person",
+      "target": "repo-equestRag",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-equestRag",
+      "source": "domain-backend",
+      "target": "repo-equestRag",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-ergo",
+      "source": "person",
+      "target": "repo-ergo",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-ergo",
+      "source": "domain-frontend",
+      "target": "repo-ergo",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-farmaCon",
+      "source": "person",
+      "target": "repo-farmaCon",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-farmaCon",
+      "source": "domain-frontend",
+      "target": "repo-farmaCon",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-fdC",
+      "source": "person",
+      "target": "repo-fdC",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-fdC",
+      "source": "domain-frontend",
+      "target": "repo-fdC",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-fdClient",
+      "source": "person",
+      "target": "repo-fdClient",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-fdClient",
+      "source": "domain-backend",
+      "target": "repo-fdClient",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-fdCliFinal",
+      "source": "person",
+      "target": "repo-fdCliFinal",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-fdCliFinal",
+      "source": "domain-frontend",
+      "target": "repo-fdCliFinal",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-fdServer",
+      "source": "person",
+      "target": "repo-fdServer",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-fdServer",
+      "source": "domain-frontend",
+      "target": "repo-fdServer",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-fdServerFinal",
+      "source": "person",
+      "target": "repo-fdServerFinal",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-fdServerFinal",
+      "source": "domain-frontend",
+      "target": "repo-fdServerFinal",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-ifrs",
+      "source": "person",
+      "target": "repo-ifrs",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-ifrs",
+      "source": "domain-frontend",
+      "target": "repo-ifrs",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-jbe",
+      "source": "person",
+      "target": "repo-jbe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-jbe",
+      "source": "domain-frontend",
+      "target": "repo-jbe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-journalbe",
+      "source": "person",
+      "target": "repo-journalbe",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-khelan",
+      "source": "person",
+      "target": "repo-khelan",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-khelan",
+      "source": "domain-frontend",
+      "target": "repo-khelan",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-khelan-mehta.github.io",
+      "source": "person",
+      "target": "repo-khelan-mehta.github.io",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-khelan-mehta.github.io",
+      "source": "domain-frontend",
+      "target": "repo-khelan-mehta.github.io",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-kycfd",
+      "source": "person",
+      "target": "repo-kycfd",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-kycfd",
+      "source": "domain-frontend",
+      "target": "repo-kycfd",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-leep-ap",
+      "source": "person",
+      "target": "repo-leep-ap",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-leep-ap",
+      "source": "domain-frontend",
+      "target": "repo-leep-ap",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-logicConverter",
+      "source": "person",
+      "target": "repo-logicConverter",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-logicConverter",
+      "source": "domain-frontend",
+      "target": "repo-logicConverter",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-mback",
+      "source": "person",
+      "target": "repo-mback",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-mback",
+      "source": "domain-frontend",
+      "target": "repo-mback",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-mbe",
+      "source": "person",
+      "target": "repo-mbe",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-mconnect",
+      "source": "person",
+      "target": "repo-mconnect",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-mconnect",
+      "source": "domain-frontend",
+      "target": "repo-mconnect",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-mentoAdmin",
+      "source": "person",
+      "target": "repo-mentoAdmin",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-mentoAdmin",
+      "source": "domain-frontend",
+      "target": "repo-mentoAdmin",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-mfe2",
+      "source": "person",
+      "target": "repo-mfe2",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-mfe2",
+      "source": "domain-frontend",
+      "target": "repo-mfe2",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-mhbe",
+      "source": "person",
+      "target": "repo-mhbe",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-mhfe",
+      "source": "person",
+      "target": "repo-mhfe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-mhfe",
+      "source": "domain-frontend",
+      "target": "repo-mhfe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-money_laundering",
+      "source": "person",
+      "target": "repo-money_laundering",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-money_laundering",
+      "source": "domain-backend",
+      "target": "repo-money_laundering",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-msfe",
+      "source": "person",
+      "target": "repo-msfe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-msfe",
+      "source": "domain-frontend",
+      "target": "repo-msfe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-mt-server-alpha",
+      "source": "person",
+      "target": "repo-mt-server-alpha",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-mt-server-alpha",
+      "source": "domain-frontend",
+      "target": "repo-mt-server-alpha",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-out-lg",
+      "source": "person",
+      "target": "repo-out-lg",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-out-lg",
+      "source": "domain-frontend",
+      "target": "repo-out-lg",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-P1DD08082025",
+      "source": "person",
+      "target": "repo-P1DD08082025",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-portfolio",
+      "source": "person",
+      "target": "repo-portfolio",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-portfolio",
+      "source": "domain-frontend",
+      "target": "repo-portfolio",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-portfolio-brownIon",
+      "source": "person",
+      "target": "repo-portfolio-brownIon",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-portfolio-brownIon",
+      "source": "domain-frontend",
+      "target": "repo-portfolio-brownIon",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-portfoliobe",
+      "source": "person",
+      "target": "repo-portfoliobe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-portfoliobe",
+      "source": "domain-frontend",
+      "target": "repo-portfoliobe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-prevoyanceId",
+      "source": "person",
+      "target": "repo-prevoyanceId",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-prevoyanceId",
+      "source": "domain-frontend",
+      "target": "repo-prevoyanceId",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-privateChat",
+      "source": "person",
+      "target": "repo-privateChat",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-privateChat",
+      "source": "domain-frontend",
+      "target": "repo-privateChat",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-pyserver",
+      "source": "person",
+      "target": "repo-pyserver",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-pyserver",
+      "source": "domain-backend",
+      "target": "repo-pyserver",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-quizApp",
+      "source": "person",
+      "target": "repo-quizApp",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-quizApp",
+      "source": "domain-backend",
+      "target": "repo-quizApp",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-riyap",
+      "source": "person",
+      "target": "repo-riyap",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-riyaPo",
+      "source": "person",
+      "target": "repo-riyaPo",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-riyaPo",
+      "source": "domain-frontend",
+      "target": "repo-riyaPo",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-riyaProject",
+      "source": "person",
+      "target": "repo-riyaProject",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-riyaProject",
+      "source": "domain-frontend",
+      "target": "repo-riyaProject",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-riyaProject2",
+      "source": "person",
+      "target": "repo-riyaProject2",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-riyaProject2",
+      "source": "domain-backend",
+      "target": "repo-riyaProject2",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-robofestResources",
+      "source": "person",
+      "target": "repo-robofestResources",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-robofestResources",
+      "source": "domain-frontend",
+      "target": "repo-robofestResources",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-server",
+      "source": "person",
+      "target": "repo-server",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-server",
+      "source": "domain-frontend",
+      "target": "repo-server",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-serverDD",
+      "source": "person",
+      "target": "repo-serverDD",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-shoppingcartbe",
+      "source": "person",
+      "target": "repo-shoppingcartbe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-shoppingcartbe",
+      "source": "domain-frontend",
+      "target": "repo-shoppingcartbe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-shoppingcartfe",
+      "source": "person",
+      "target": "repo-shoppingcartfe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-shoppingcartfe",
+      "source": "domain-frontend",
+      "target": "repo-shoppingcartfe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-shreeRadhe",
+      "source": "person",
+      "target": "repo-shreeRadhe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-shreeRadhe",
+      "source": "domain-frontend",
+      "target": "repo-shreeRadhe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-shreeRadhePg",
+      "source": "person",
+      "target": "repo-shreeRadhePg",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-shreeRadhePg",
+      "source": "domain-frontend",
+      "target": "repo-shreeRadhePg",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-siddharthdesai",
+      "source": "person",
+      "target": "repo-siddharthdesai",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-siddharthdesai",
+      "source": "domain-frontend",
+      "target": "repo-siddharthdesai",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-smpfe",
+      "source": "person",
+      "target": "repo-smpfe",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-smpfe",
+      "source": "domain-frontend",
+      "target": "repo-smpfe",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-spk",
+      "source": "person",
+      "target": "repo-spk",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-spk",
+      "source": "domain-frontend",
+      "target": "repo-spk",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-spsfe",
+      "source": "person",
+      "target": "repo-spsfe",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-srTemp",
+      "source": "person",
+      "target": "repo-srTemp",
+      "type": "owns"
+    },
+    {
+      "id": "e-person-repo-stress-monitor-pro",
+      "source": "person",
+      "target": "repo-stress-monitor-pro",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-stress-monitor-pro",
+      "source": "domain-frontend",
+      "target": "repo-stress-monitor-pro",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-trialServer",
+      "source": "person",
+      "target": "repo-trialServer",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-trialServer",
+      "source": "domain-frontend",
+      "target": "repo-trialServer",
+      "type": "domain"
+    },
+    {
+      "id": "e-domain-backend-repo-trialServer",
+      "source": "domain-backend",
+      "target": "repo-trialServer",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-uploadApk",
+      "source": "person",
+      "target": "repo-uploadApk",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-uploadApk",
+      "source": "domain-frontend",
+      "target": "repo-uploadApk",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-Vaikunth",
+      "source": "person",
+      "target": "repo-Vaikunth",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-Vaikunth",
+      "source": "domain-frontend",
+      "target": "repo-Vaikunth",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-vk",
+      "source": "person",
+      "target": "repo-vk",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-frontend-repo-vk",
+      "source": "domain-frontend",
+      "target": "repo-vk",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-repo-xaiEnergy",
+      "source": "person",
+      "target": "repo-xaiEnergy",
+      "type": "owns"
+    },
+    {
+      "id": "e-domain-backend-repo-xaiEnergy",
+      "source": "domain-backend",
+      "target": "repo-xaiEnergy",
+      "type": "domain"
+    },
+    {
+      "id": "e-person-domain-frontend",
+      "source": "person",
+      "target": "domain-frontend",
+      "type": "focus"
+    },
+    {
+      "id": "e-person-domain-backend",
+      "source": "person",
+      "target": "domain-backend",
+      "type": "focus"
+    },
+    {
+      "id": "e-person-lang-TypeScript",
+      "source": "person",
+      "target": "lang-TypeScript",
+      "type": "knows"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-accathon",
+      "source": "lang-TypeScript",
+      "target": "repo-accathon",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-authBackend",
+      "source": "lang-TypeScript",
+      "target": "repo-authBackend",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-authSystem",
+      "source": "lang-TypeScript",
+      "target": "repo-authSystem",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-bh-server",
+      "source": "lang-TypeScript",
+      "target": "repo-bh-server",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-bi",
+      "source": "lang-TypeScript",
+      "target": "repo-bi",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-catalogueClient",
+      "source": "lang-TypeScript",
+      "target": "repo-catalogueClient",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-catalogueMainSever",
+      "source": "lang-TypeScript",
+      "target": "repo-catalogueMainSever",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-cliDD",
+      "source": "lang-TypeScript",
+      "target": "repo-cliDD",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-cookie",
+      "source": "lang-TypeScript",
+      "target": "repo-cookie",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-cookiebk",
+      "source": "lang-TypeScript",
+      "target": "repo-cookiebk",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-cookiefe",
+      "source": "lang-TypeScript",
+      "target": "repo-cookiefe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-dd",
+      "source": "lang-TypeScript",
+      "target": "repo-dd",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-devbang",
+      "source": "lang-TypeScript",
+      "target": "repo-devbang",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-dream-fullill",
+      "source": "lang-TypeScript",
+      "target": "repo-dream-fullill",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-farmaCon",
+      "source": "lang-TypeScript",
+      "target": "repo-farmaCon",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-fdC",
+      "source": "lang-TypeScript",
+      "target": "repo-fdC",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-fdCliFinal",
+      "source": "lang-TypeScript",
+      "target": "repo-fdCliFinal",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-fdServer",
+      "source": "lang-TypeScript",
+      "target": "repo-fdServer",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-fdServerFinal",
+      "source": "lang-TypeScript",
+      "target": "repo-fdServerFinal",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-khelan",
+      "source": "lang-TypeScript",
+      "target": "repo-khelan",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-leep-ap",
+      "source": "lang-TypeScript",
+      "target": "repo-leep-ap",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-mconnect",
+      "source": "lang-TypeScript",
+      "target": "repo-mconnect",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-mentoAdmin",
+      "source": "lang-TypeScript",
+      "target": "repo-mentoAdmin",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-mfe2",
+      "source": "lang-TypeScript",
+      "target": "repo-mfe2",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-msfe",
+      "source": "lang-TypeScript",
+      "target": "repo-msfe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-mt-server-alpha",
+      "source": "lang-TypeScript",
+      "target": "repo-mt-server-alpha",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-portfolio-brownIon",
+      "source": "lang-TypeScript",
+      "target": "repo-portfolio-brownIon",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-privateChat",
+      "source": "lang-TypeScript",
+      "target": "repo-privateChat",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-server",
+      "source": "lang-TypeScript",
+      "target": "repo-server",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-shreeRadhe",
+      "source": "lang-TypeScript",
+      "target": "repo-shreeRadhe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-shreeRadhePg",
+      "source": "lang-TypeScript",
+      "target": "repo-shreeRadhePg",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-stress-monitor-pro",
+      "source": "lang-TypeScript",
+      "target": "repo-stress-monitor-pro",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-trialServer",
+      "source": "lang-TypeScript",
+      "target": "repo-trialServer",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-Vaikunth",
+      "source": "lang-TypeScript",
+      "target": "repo-Vaikunth",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-TypeScript-repo-vk",
+      "source": "lang-TypeScript",
+      "target": "repo-vk",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-lang-Python",
+      "source": "person",
+      "target": "lang-Python",
+      "type": "knows"
+    },
+    {
+      "id": "e-lang-Python-repo-antifraud",
+      "source": "lang-Python",
+      "target": "repo-antifraud",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-cataloguePython",
+      "source": "lang-Python",
+      "target": "repo-cataloguePython",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-equestRag",
+      "source": "lang-Python",
+      "target": "repo-equestRag",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-fdClient",
+      "source": "lang-Python",
+      "target": "repo-fdClient",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-money_laundering",
+      "source": "lang-Python",
+      "target": "repo-money_laundering",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-pyserver",
+      "source": "lang-Python",
+      "target": "repo-pyserver",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-quizApp",
+      "source": "lang-Python",
+      "target": "repo-quizApp",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-riyaProject2",
+      "source": "lang-Python",
+      "target": "repo-riyaProject2",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-Python-repo-xaiEnergy",
+      "source": "lang-Python",
+      "target": "repo-xaiEnergy",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-lang-JavaScript",
+      "source": "person",
+      "target": "lang-JavaScript",
+      "type": "knows"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-cookiebe",
+      "source": "lang-JavaScript",
+      "target": "repo-cookiebe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-dhwanilSIAMS",
+      "source": "lang-JavaScript",
+      "target": "repo-dhwanilSIAMS",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-diary-mate-alpha-phase1",
+      "source": "lang-JavaScript",
+      "target": "repo-diary-mate-alpha-phase1",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-ifrs",
+      "source": "lang-JavaScript",
+      "target": "repo-ifrs",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-jbe",
+      "source": "lang-JavaScript",
+      "target": "repo-jbe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-kycfd",
+      "source": "lang-JavaScript",
+      "target": "repo-kycfd",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-mback",
+      "source": "lang-JavaScript",
+      "target": "repo-mback",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-mhfe",
+      "source": "lang-JavaScript",
+      "target": "repo-mhfe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-portfolio",
+      "source": "lang-JavaScript",
+      "target": "repo-portfolio",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-portfoliobe",
+      "source": "lang-JavaScript",
+      "target": "repo-portfoliobe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-riyaPo",
+      "source": "lang-JavaScript",
+      "target": "repo-riyaPo",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-riyaProject",
+      "source": "lang-JavaScript",
+      "target": "repo-riyaProject",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-shoppingcartbe",
+      "source": "lang-JavaScript",
+      "target": "repo-shoppingcartbe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-shoppingcartfe",
+      "source": "lang-JavaScript",
+      "target": "repo-shoppingcartfe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-smpfe",
+      "source": "lang-JavaScript",
+      "target": "repo-smpfe",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-JavaScript-repo-spk",
+      "source": "lang-JavaScript",
+      "target": "repo-spk",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-lang-HTML",
+      "source": "person",
+      "target": "lang-HTML",
+      "type": "knows"
+    },
+    {
+      "id": "e-lang-HTML-repo-cookiegallery",
+      "source": "lang-HTML",
+      "target": "repo-cookiegallery",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-ergo",
+      "source": "lang-HTML",
+      "target": "repo-ergo",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-khelan-mehta.github.io",
+      "source": "lang-HTML",
+      "target": "repo-khelan-mehta.github.io",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-logicConverter",
+      "source": "lang-HTML",
+      "target": "repo-logicConverter",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-out-lg",
+      "source": "lang-HTML",
+      "target": "repo-out-lg",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-prevoyanceId",
+      "source": "lang-HTML",
+      "target": "repo-prevoyanceId",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-robofestResources",
+      "source": "lang-HTML",
+      "target": "repo-robofestResources",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-siddharthdesai",
+      "source": "lang-HTML",
+      "target": "repo-siddharthdesai",
+      "type": "uses"
+    },
+    {
+      "id": "e-lang-HTML-repo-uploadApk",
+      "source": "lang-HTML",
+      "target": "repo-uploadApk",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-lang-C",
+      "source": "person",
+      "target": "lang-C",
+      "type": "knows"
+    },
+    {
+      "id": "e-lang-C-repo-dsa",
+      "source": "lang-C",
+      "target": "repo-dsa",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-lang-Rust",
+      "source": "person",
+      "target": "lang-Rust",
+      "type": "knows"
+    },
+    {
+      "id": "e-lang-Rust-repo-mbe",
+      "source": "lang-Rust",
+      "target": "repo-mbe",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-tool-Git",
+      "source": "person",
+      "target": "tool-Git",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-tool-Docker",
+      "source": "person",
+      "target": "tool-Docker",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-tool-React",
+      "source": "person",
+      "target": "tool-React",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-tool-Node.js",
+      "source": "person",
+      "target": "tool-Node.js",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-tool-Vite",
+      "source": "person",
+      "target": "tool-Vite",
+      "type": "uses"
+    },
+    {
+      "id": "e-person-tool-TypeScript",
+      "source": "person",
+      "target": "tool-TypeScript",
+      "type": "uses"
+    }
+  ]
+}

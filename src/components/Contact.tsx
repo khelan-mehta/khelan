@@ -1,76 +1,138 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import styles from './Contact.module.css'
+import { ArrowUpRight } from 'lucide-react'
 
-const links = [
-  { label: 'Email', href: 'mailto:khelan05@gmail.com', value: 'khelan05@gmail.com' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/khelanmehta', value: 'linkedin.com/in/khelanmehta' },
-  { label: 'GitHub', href: 'https://github.com/khelan-mehta', value: 'github.com/khelan-mehta' },
+const contactLinks = [
+  {
+    label: 'Email',
+    value: 'khelan.mehta@gmail.com',
+    href: 'mailto:khelan.mehta@gmail.com',
+  },
+  {
+    label: 'GitHub',
+    value: 'github.com/khelan-mehta',
+    href: 'https://github.com/khelan-mehta',
+  },
+  {
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/khelan-mehta',
+    href: 'https://linkedin.com/in/khelan-mehta',
+  },
 ]
+
+const ease = [0.16, 1, 0.3, 1] as const
 
 export default function Contact() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="contact" className={styles.contact} ref={ref}>
-      <div className={styles.container}>
+    <section id="contact" className="section" ref={ref} style={{ background: '#000' }}>
+      <div className="container">
         <motion.div
-          className={styles.label}
-          initial={{ opacity: 0, x: -20 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className={styles.labelLine} />
-          <span className={styles.labelText}>06 / Contact</span>
-        </motion.div>
-
-        <motion.h2
-          className={styles.title}
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, ease }}
+          style={{ marginBottom: 48 }}
         >
-          Let's <em>Connect</em>
-        </motion.h2>
+          <span className="section-label">06 — Contact</span>
+          <h2 className="section-title">Let's connect</h2>
+          <p className="section-subtitle">
+            Open to opportunities in sustainability tech, energy analytics, and
+            full-stack development.
+          </p>
+        </motion.div>
 
-        <motion.p
-          className={styles.subtitle}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          Interested in energy modeling, sustainability tech, or collaboration? 
-          I'd love to hear from you.
-        </motion.p>
-
-        <div className={styles.links}>
-          {links.map((link, i) => (
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          {contactLinks.map((link, i) => (
             <motion.a
               key={link.label}
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.link}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 * i + 0.4 }}
+              transition={{ duration: 0.5, delay: 0.08 * i, ease }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '24px 0',
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                textDecoration: 'none',
+                transition: 'padding-left 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.paddingLeft = '16px'
+                const arrow = e.currentTarget.querySelector(
+                  '.contact-arrow'
+                ) as HTMLElement
+                if (arrow) arrow.style.opacity = '1'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.paddingLeft = '0'
+                const arrow = e.currentTarget.querySelector(
+                  '.contact-arrow'
+                ) as HTMLElement
+                if (arrow) arrow.style.opacity = '0.25'
+              }}
             >
-              <span className={styles.linkLabel}>{link.label}</span>
-              <span className={styles.linkValue}>{link.value}</span>
-              <span className={styles.linkArrow}>↗</span>
+              <div>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 10,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.2)',
+                    display: 'block',
+                    marginBottom: 4,
+                  }}
+                >
+                  {link.label}
+                </span>
+                <span
+                  style={{
+                    fontSize: 15,
+                    color: '#fff',
+                    fontWeight: 400,
+                  }}
+                >
+                  {link.value}
+                </span>
+              </div>
+              <ArrowUpRight
+                className="contact-arrow"
+                size={16}
+                color="#fff"
+                style={{ opacity: 0.25, transition: 'opacity 0.3s ease' }}
+              />
             </motion.a>
           ))}
         </div>
 
-        <div className={styles.footer}>
-          <span className={styles.footerLeft}>
-            © {new Date().getFullYear()} Khelan Mehta
-          </span>
-          <span className={styles.footerRight}>
-            Built with React + TypeScript
-          </span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          style={{
+            textAlign: 'center',
+            marginTop: 100,
+            paddingTop: 40,
+            borderTop: '1px solid rgba(255,255,255,0.04)',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              color: 'rgba(255,255,255,0.12)',
+              letterSpacing: '0.04em',
+            }}
+          >
+            Designed & built by Khelan Mehta
+          </p>
+        </motion.div>
       </div>
     </section>
   )

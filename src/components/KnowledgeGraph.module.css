@@ -1,0 +1,28 @@
+/* KnowledgeGraph ─────────────────────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mini {
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+}
+
+.mini:hover {
+  box-shadow: 0 0 40px rgba(0, 212, 170, 0.08);
+}
+
+.full {
+  border-radius: 0;
+}

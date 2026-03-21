@@ -1,94 +1,114 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import styles from './Experience.module.css'
 
 const experiences = [
   {
-    company: 'Ergo Energy LLP',
-    role: 'Energy Modeling & Sustainability Consultant Intern',
-    period: 'Jul 2024 — Present',
-    location: 'Surat, Gujarat',
-    points: [
-      'Conducted building energy modeling and simulation for commercial projects using eQuest and IES VE',
-      'Supported LEED certification processes (BD+C, O+M) through preparation of energy documentation',
-      'Developed Python automation workflows for processing simulation outputs',
-      'Participated in building energy audits and prepared energy conservation measures',
-    ],
+    company: 'Ergo Energy',
+    role: 'Software Engineer',
+    period: '2023 — Present',
+    description:
+      'Leading development of energy analytics platform. Built ML models for building performance prediction and real-time monitoring dashboards.',
   },
   {
-    company: 'The IT Company — Brown Ion',
-    role: 'Development Team Manager',
-    period: 'Jun 2023 — May 2024',
-    location: 'Remote',
-    points: [
-      'Coordinated a development team delivering web applications using agile methodologies',
-      'Led development of AI-assisted automation tools for internal operational workflows',
-      'Ensured OWASP security standards and architected full-stack MERN solutions',
-    ],
+    company: 'IT Company Brown Ion',
+    role: 'Full Stack Developer',
+    period: '2022 — 2023',
+    description:
+      'Developed web applications and APIs for enterprise clients. Led migration of legacy systems to modern React/Node.js stack.',
   },
   {
     company: 'Admyre',
-    role: 'Web Developer',
-    period: 'Aug 2021 — Jun 2023',
-    location: 'Remote',
-    points: [
-      'Developed a full-stack influencer marketing platform using React, Node.js, and Express',
-      'Built data visualization dashboards for influencer performance tracking',
-      'Integrated third-party APIs for social media data collection',
-    ],
+    role: 'Frontend Developer',
+    period: '2021 — 2022',
+    description:
+      'Built responsive web interfaces and collaborated with design team on UI/UX improvements for consumer-facing products.',
   },
 ]
+
+const ease = [0.16, 1, 0.3, 1] as const
 
 export default function Experience() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="experience" className={styles.experience} ref={ref}>
-      <div className={styles.container}>
+    <section
+      id="experience"
+      className="section"
+      ref={ref}
+      style={{ background: '#000' }}
+    >
+      <div className="container">
         <motion.div
-          className={styles.label}
-          initial={{ opacity: 0, x: -20 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className={styles.labelLine} />
-          <span className={styles.labelText}>04 / Experience</span>
-        </motion.div>
-
-        <motion.h2
-          className={styles.title}
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, ease }}
         >
-          My <em>Experience</em>
-        </motion.h2>
+          <span className="section-label">04 — Experience</span>
+          <h2 className="section-title">Where I've worked</h2>
+        </motion.div>
 
-        <div className={styles.timeline}>
+        <div style={{ marginTop: 12 }}>
           {experiences.map((exp, i) => (
             <motion.div
               key={exp.company}
-              className={styles.item}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 * i + 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 * i, ease }}
+              style={{
+                padding: '36px 0',
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                display: 'grid',
+                gridTemplateColumns: '1fr auto',
+                gap: 32,
+                alignItems: 'start',
+              }}
             >
-              <div className={styles.itemHeader}>
-                <div>
-                  <h3 className={styles.company}>{exp.company}</h3>
-                  <p className={styles.role}>{exp.role}</p>
-                </div>
-                <div className={styles.meta}>
-                  <span className={styles.period}>{exp.period}</span>
-                  <span className={styles.location}>{exp.location}</span>
-                </div>
+              <div>
+                <h3
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 600,
+                    color: '#fff',
+                    marginBottom: 4,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {exp.company}
+                </h3>
+                <span
+                  style={{
+                    fontSize: 13,
+                    color: 'rgba(255,255,255,0.35)',
+                    display: 'block',
+                    marginBottom: 14,
+                  }}
+                >
+                  {exp.role}
+                </span>
+                <p
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                    color: 'rgba(255,255,255,0.25)',
+                    maxWidth: 520,
+                  }}
+                >
+                  {exp.description}
+                </p>
               </div>
-              <ul className={styles.points}>
-                {exp.points.map((point, j) => (
-                  <li key={j} className={styles.point}>{point}</li>
-                ))}
-              </ul>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11,
+                  color: 'rgba(255,255,255,0.2)',
+                  letterSpacing: '0.04em',
+                  whiteSpace: 'nowrap',
+                  paddingTop: 4,
+                }}
+              >
+                {exp.period}
+              </span>
             </motion.div>
           ))}
         </div>

@@ -1,473 +1,432 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import axios from 'axios'
-import styles from './Admin.module.css'
+import { Lock, Save, Upload, Trash2, Play, Volume2, LogIn } from 'lucide-react'
 
-const API_BASE = "https://portfoliobe-ebon.vercel.app"
+const API_BASE = 'https://portfoliobe-ebon.vercel.app'
 
-const VOICE_OPTIONS = [
-  { id: 'alloy',   label: 'Alloy',   desc: 'Neutral, versatile' },
-  { id: 'echo',    label: 'Echo',    desc: 'Balanced, clear' },
-  { id: 'fable',   label: 'Fable',   desc: 'Expressive, British' },
-  { id: 'onyx',    label: 'Onyx',    desc: 'Deep, authoritative' },
-  { id: 'nova',    label: 'Nova',    desc: 'Friendly, warm' },
-  { id: 'shimmer', label: 'Shimmer', desc: 'Soft, gentle' },
-]
-
-interface VoiceSample {
-  filename: string
-  size: number
-  url: string
-  uploadedAt: string
-}
+const VOICES = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer']
 
 export default function Admin() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [token, setToken] = useState(() => sessionStorage.getItem('admin_token') || '')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
 
-  // Context
-  const [contextText, setContextText] = useState('')
-  const [contextSaved, setContextSaved] = useState(false)
+  const [context, setContext] = useState('')
+  const [selectedVoice, setSelectedVoice] = useState('nova')
+  const [speed, setSpeed] = useState(1)
+  const [voiceSamples, setVoiceSamples] = useState<string[]>([])
+  const [saving, setSaving] = useState(false)
+  const [previewText, setPreviewText] = useState('Hello, this is a voice preview.')
 
-  // Voice config
-  const [selectedVoice, setSelectedVoice] = useState('onyx')
-  const [voiceSpeed, setVoiceSpeed] = useState(1.0)
-  const [voiceConfigSaved, setVoiceConfigSaved] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Voice samples
-  const [voiceFiles, setVoiceFiles] = useState<File[]>([])
-  const [uploadingVoice, setUploadingVoice] = useState(false)
-  const [voiceSamples, setVoiceSamples] = useState<VoiceSample[]>([])
-  const [voiceUploadMsg, setVoiceUploadMsg] = useState('')
-
-  // Preview playback
-  const [previewLoading, setPreviewLoading] = useState(false)
-  const previewAudioRef = useRef<HTMLAudioElement | null>(null)
-
-  const voiceFileInputRef = useRef<HTMLInputElement>(null)
-
-  // ── Auth ────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    const token = sessionStorage.getItem('admin_token')
-    if (token) {
-      setIsAuthenticated(true)
-      fetchAll(token)
-    }
-  }, [])
+    if (token) loadData()
+  }, [token])
 
-  const fetchAll = async (token: string) => {
+  const login = async () => {
     try {
-      const [contextRes, voiceCfgRes, voiceSamplesRes] = await Promise.all([
-        axios.get(`${API_BASE}/api/admin/context`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get(`${API_BASE}/api/admin/voice-config`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get(`${API_BASE}/api/admin/voice-samples`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ])
+      const res = await fetch(`${API_BASE}/api/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+      const data = await res.json()
+      if (data.token) {
+        setToken(data.token)
+        sessionStorage.setItem('admin_token', data.token)
+        setLoginError('')
+      } else {
+        setLoginError('Invalid password')
+      }
+    } catch {
+      setLoginError('Connection failed')
+    }
+  }
 
-      if (contextRes.data.context) setContextText(contextRes.data.context)
-      if (voiceCfgRes.data.selectedVoice) setSelectedVoice(voiceCfgRes.data.selectedVoice)
-      if (voiceCfgRes.data.speed) setVoiceSpeed(voiceCfgRes.data.speed)
-      if (voiceSamplesRes.data.samples) setVoiceSamples(voiceSamplesRes.data.samples)
+  const loadData = async () => {
+    const headers = { Authorization: `Bearer ${token}` }
+    try {
+      const [ctxRes, voiceRes, samplesRes] = await Promise.all([
+        fetch(`${API_BASE}/api/admin/context`, { headers }),
+        fetch(`${API_BASE}/api/admin/voice-config`, { headers }),
+        fetch(`${API_BASE}/api/admin/voice-samples`, { headers }),
+      ])
+      const ctxData = await ctxRes.json()
+      const voiceData = await voiceRes.json()
+      const samplesData = await samplesRes.json()
+
+      if (ctxData.context) setContext(ctxData.context)
+      if (voiceData.selectedVoice) setSelectedVoice(voiceData.selectedVoice)
+      if (voiceData.speed) setSpeed(voiceData.speed)
+      if (samplesData.samples) setVoiceSamples(samplesData.samples)
     } catch {}
   }
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoginError('')
+  const saveContext = async () => {
+    setSaving(true)
     try {
-      const res = await axios.post(`${API_BASE}/api/admin/login`, { password })
-      sessionStorage.setItem('admin_token', res.data.token)
-      setIsAuthenticated(true)
-      fetchAll(res.data.token)
-    } catch {
-      setLoginError('Invalid password')
-    }
+      await fetch(`${API_BASE}/api/admin/context`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ context }),
+      })
+    } catch {}
+    setSaving(false)
   }
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('admin_token')
-    setIsAuthenticated(false)
-    setPassword('')
-  }
-
-  // ── Context save ────────────────────────────────────────────────────────────
-  const handleSaveContext = async () => {
+  const saveVoiceConfig = async () => {
+    setSaving(true)
     try {
-      const token = sessionStorage.getItem('admin_token')
-      await axios.post(
-        `${API_BASE}/api/admin/context`,
-        { context: contextText },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      setContextSaved(true)
-      setTimeout(() => setContextSaved(false), 2000)
-    } catch {
-      alert('Failed to save context')
-    }
+      await fetch(`${API_BASE}/api/admin/voice-config`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ selectedVoice, speed }),
+      })
+    } catch {}
+    setSaving(false)
   }
 
-  // ── Voice config save ───────────────────────────────────────────────────────
-  const handleSaveVoiceConfig = async () => {
-    try {
-      const token = sessionStorage.getItem('admin_token')
-      await axios.post(
-        `${API_BASE}/api/admin/voice-config`,
-        { selectedVoice, speed: voiceSpeed },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      setVoiceConfigSaved(true)
-      setTimeout(() => setVoiceConfigSaved(false), 2000)
-    } catch {
-      alert('Failed to save voice config')
-    }
-  }
-
-  // ── Voice sample upload ──────────────────────────────────────────────────────
-  const handleVoiceUpload = async () => {
-    if (voiceFiles.length === 0) return
-    setUploadingVoice(true)
-    setVoiceUploadMsg('')
-
+  const uploadSamples = async (files: FileList) => {
     const formData = new FormData()
-    voiceFiles.forEach((f) => formData.append('voice', f))
-
+    Array.from(files).forEach((f) => formData.append('audio', f))
     try {
-      const token = sessionStorage.getItem('admin_token')
-      const res = await axios.post(`${API_BASE}/api/admin/upload-voice`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
+      await fetch(`${API_BASE}/api/admin/upload-voice`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
       })
-      setVoiceUploadMsg(res.data.message)
-      setVoiceFiles([])
-      if (voiceFileInputRef.current) voiceFileInputRef.current.value = ''
-      // Refresh sample list
-      const token2 = sessionStorage.getItem('admin_token')!
-      const samplesRes = await axios.get(`${API_BASE}/api/admin/voice-samples`, {
-        headers: { Authorization: `Bearer ${token2}` },
-      })
-      setVoiceSamples(samplesRes.data.samples || [])
-    } catch {
-      setVoiceUploadMsg('Upload failed. Check server connection.')
-    } finally {
-      setUploadingVoice(false)
-    }
+      loadData()
+    } catch {}
   }
 
-  // ── Delete voice sample ─────────────────────────────────────────────────────
-  const handleDeleteSample = async (filename: string) => {
+  const deleteSample = async (filename: string) => {
     try {
-      const token = sessionStorage.getItem('admin_token')
-      await axios.delete(`${API_BASE}/api/admin/voice-samples/${filename}`, {
+      await fetch(`${API_BASE}/api/admin/voice-samples/${filename}`, {
+        method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       })
-      setVoiceSamples((prev) => prev.filter((s) => s.filename !== filename))
-    } catch {
-      alert('Failed to delete sample')
-    }
+      setVoiceSamples(voiceSamples.filter((s) => s !== filename))
+    } catch {}
   }
 
-  // ── Preview voice via TTS ────────────────────────────────────────────────────
-  const handlePreviewVoice = async () => {
-    setPreviewLoading(true)
+  const previewVoice = async () => {
     try {
-      const res = await axios.post(
-        `${API_BASE}/api/tts`,
-        { text: "Hey! I'm Khelan Mehta — energy modeler, developer, and sustainability enthusiast. Great to meet you!" },
-        { responseType: 'blob' }
-      )
-      const url = URL.createObjectURL(new Blob([res.data], { type: 'audio/mpeg' }))
-      if (previewAudioRef.current) {
-        previewAudioRef.current.src = url
-        previewAudioRef.current.play()
-        previewAudioRef.current.onended = () => URL.revokeObjectURL(url)
-      } else {
-        const a = new Audio(url)
-        previewAudioRef.current = a
-        a.play()
-        a.onended = () => URL.revokeObjectURL(url)
-      }
-    } catch {
-      alert('Preview failed — check server connection and OPENAI_API_KEY.')
-    } finally {
-      setPreviewLoading(false)
-    }
+      const res = await fetch(`${API_BASE}/api/tts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: previewText }),
+      })
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const audio = new Audio(url)
+      audio.play()
+    } catch {}
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────────
-  const formatBytes = (b: number) => {
-    if (b < 1024) return `${b} B`
-    if (b < 1024 * 1024) return `${(b / 1024).toFixed(1)} KB`
-    return `${(b / (1024 * 1024)).toFixed(1)} MB`
-  }
-
-  // ── Login Screen ─────────────────────────────────────────────────────────────
-  if (!isAuthenticated) {
+  if (!token) {
     return (
-      <div className={styles.loginPage}>
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'var(--white)',
+        }}
+      >
         <motion.div
-          className={styles.loginCard}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          style={{
+            width: '100%',
+            maxWidth: 400,
+            padding: 40,
+            border: '1px solid var(--gray-200)',
+            borderRadius: 16,
+            margin: 24,
+          }}
         >
-          <div className={styles.loginLogo}>K</div>
-          <h1 className={styles.loginTitle}>Admin Access</h1>
-          <p className={styles.loginSub}>Enter password to manage your portfolio</p>
+          <Lock size={24} style={{ marginBottom: 24 }} />
+          <h2 style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>Admin Access</h2>
+          <p style={{ fontSize: 14, color: 'var(--gray-500)', marginBottom: 32 }}>
+            Enter your password to continue.
+          </p>
 
-          <form onSubmit={handleLogin} className={styles.loginForm}>
-            <input
-              type="password"
-              className={styles.loginInput}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              autoFocus
-            />
-            {loginError && <p className={styles.error}>{loginError}</p>}
-            <button type="submit" className={styles.loginBtn}>
-              <span>Authenticate</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
-          </form>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && login()}
+            placeholder="Password"
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              border: '1px solid var(--gray-200)',
+              borderRadius: 10,
+              fontSize: 14,
+              fontFamily: 'var(--font-body)',
+              outline: 'none',
+              marginBottom: 16,
+              boxSizing: 'border-box',
+            }}
+          />
 
-          <a href="/" className={styles.backLink}>← Back to Portfolio</a>
+          {loginError && (
+            <p style={{ fontSize: 13, color: '#dc2626', marginBottom: 16 }}>{loginError}</p>
+          )}
+
+          <button
+            onClick={login}
+            style={{
+              width: '100%',
+              padding: '12px',
+              background: 'var(--black)',
+              color: 'var(--white)',
+              border: 'none',
+              borderRadius: 10,
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+            }}
+          >
+            <LogIn size={16} />
+            Sign in
+          </button>
         </motion.div>
       </div>
     )
   }
 
-  // ── Admin Dashboard ───────────────────────────────────────────────────────────
   return (
-    <div className={styles.dashboard}>
-      <div className={styles.dashHeader}>
-        <div>
-          <h1 className={styles.dashTitle}>Admin Dashboard</h1>
-          <p className={styles.dashSub}>Manage AI voice, avatar & context</p>
-        </div>
-        <div className={styles.dashActions}>
-          <a href="/" className={styles.viewSiteBtn}>View Site ↗</a>
-          <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
-        </div>
-      </div>
+    <div style={{ minHeight: '100vh', background: 'var(--gray-50)', padding: '40px 24px' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto' }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>Admin Dashboard</h1>
+        <p style={{ fontSize: 14, color: 'var(--gray-500)', marginBottom: 48 }}>
+          Manage your AI voice, context, and voice samples.
+        </p>
 
-      <div className={styles.grid}>
+        {/* AI Context */}
+        <section style={{ background: 'var(--white)', border: '1px solid var(--gray-200)', borderRadius: 12, padding: 32, marginBottom: 24 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>AI Context / Personality</h2>
+          <textarea
+            value={context}
+            onChange={(e) => setContext(e.target.value)}
+            rows={8}
+            style={{
+              width: '100%',
+              padding: 16,
+              border: '1px solid var(--gray-200)',
+              borderRadius: 10,
+              fontSize: 14,
+              fontFamily: 'var(--font-mono)',
+              lineHeight: 1.7,
+              resize: 'vertical',
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+          <button
+            onClick={saveContext}
+            disabled={saving}
+            style={{
+              marginTop: 16,
+              padding: '10px 20px',
+              background: 'var(--black)',
+              color: 'var(--white)',
+              border: 'none',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            <Save size={14} />
+            {saving ? 'Saving...' : 'Save Context'}
+          </button>
+        </section>
 
-        {/* ── VOICE AI SECTION ──────────────────────────────────────────────── */}
-        <motion.div
-          className={`${styles.card} ${styles.voiceCard}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-        >
-          <div className={styles.cardBadge}>NEW</div>
-          <h2 className={styles.cardTitle}>Voice AI Replication</h2>
-          <p className={styles.cardDesc}>
-            Upload audio recordings of your voice (30 sec – 5 min each, up to 5 files).
-            Select the OpenAI voice that best matches yours, then save. Your AI avatar
-            will speak every response in that voice. For highest fidelity, record yourself
-            speaking naturally in a quiet environment.
-          </p>
+        {/* Voice Config */}
+        <section style={{ background: 'var(--white)', border: '1px solid var(--gray-200)', borderRadius: 12, padding: 32, marginBottom: 24 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>Voice Configuration</h2>
 
-          {/* Upload audio samples */}
-          <div className={styles.sectionLabel}>Step 1 — Upload Voice Samples</div>
-          <div className={styles.uploadArea}>
-            <input
-              ref={voiceFileInputRef}
-              type="file"
-              accept="audio/*,.mp3,.wav,.m4a,.ogg,.flac,.webm"
-              multiple
-              onChange={(e) => {
-                const files = Array.from(e.target.files || [])
-                setVoiceFiles(files.slice(0, 5))
-              }}
-              className={styles.fileInput}
-              id="voiceUpload"
-            />
-            <label htmlFor="voiceUpload" className={styles.uploadLabel}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                <line x1="12" y1="19" x2="12" y2="23" />
-                <line x1="8" y1="23" x2="16" y2="23" />
-              </svg>
-              <span>
-                {voiceFiles.length > 0
-                  ? `${voiceFiles.length} file${voiceFiles.length > 1 ? 's' : ''} selected`
-                  : 'Choose audio files (mp3, wav, m4a, ogg…)'}
-              </span>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--gray-600)', marginBottom: 8, display: 'block' }}>
+              Voice
             </label>
-
-            {voiceFiles.length > 0 && (
-              <div className={styles.fileList}>
-                {voiceFiles.map((f, i) => (
-                  <div key={i} className={styles.fileItem}>
-                    <span className={styles.fileName}>{f.name}</span>
-                    <span className={styles.fileSize}>{formatBytes(f.size)}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {voiceFiles.length > 0 && (
-              <button
-                onClick={handleVoiceUpload}
-                disabled={uploadingVoice}
-                className={styles.uploadBtn}
-              >
-                {uploadingVoice ? 'Uploading…' : `Upload ${voiceFiles.length} Sample${voiceFiles.length > 1 ? 's' : ''}`}
-              </button>
-            )}
-
-            {voiceUploadMsg && (
-              <motion.p
-                className={voiceUploadMsg.includes('fail') ? styles.errorMsg : styles.success}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                {voiceUploadMsg}
-              </motion.p>
-            )}
-          </div>
-
-          {/* Existing samples */}
-          {voiceSamples.length > 0 && (
-            <div className={styles.samplesSection}>
-              <div className={styles.sectionLabel}>Uploaded Samples ({voiceSamples.length})</div>
-              <div className={styles.sampleList}>
-                {voiceSamples.map((s) => (
-                  <div key={s.filename} className={styles.sampleItem}>
-                    <audio
-                      src={`${API_BASE}${s.url}`}
-                      controls
-                      className={styles.audioPlayer}
-                    />
-                    <div className={styles.sampleMeta}>
-                      <span className={styles.sampleName}>{s.filename}</span>
-                      <span className={styles.sampleSize}>{formatBytes(s.size)}</span>
-                    </div>
-                    <button
-                      className={styles.deleteBtn}
-                      onClick={() => handleDeleteSample(s.filename)}
-                      title="Delete sample"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="3 6 5 6 21 6" />
-                        <path d="M19 6l-1 14H6L5 6" />
-                        <path d="M10 11v6M14 11v6" />
-                        <path d="M9 6V4h6v2" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-              </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {VOICES.map((v) => (
+                <button
+                  key={v}
+                  onClick={() => setSelectedVoice(v)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 8,
+                    border: '1px solid var(--gray-200)',
+                    background: selectedVoice === v ? 'var(--black)' : 'var(--white)',
+                    color: selectedVoice === v ? 'var(--white)' : 'var(--gray-600)',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    textTransform: 'capitalize',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {v}
+                </button>
+              ))}
             </div>
-          )}
-
-          {/* Voice selection */}
-          <div className={styles.sectionLabel} style={{ marginTop: '24px' }}>Step 2 — Select Voice Profile</div>
-          <p className={styles.sectionHint}>
-            Listen to each preview, then select the voice that most closely matches your recording.
-            This voice will be used for all AI responses.
-          </p>
-          <div className={styles.voiceGrid}>
-            {VOICE_OPTIONS.map((v) => (
-              <button
-                key={v.id}
-                className={`${styles.voiceOption} ${selectedVoice === v.id ? styles.voiceSelected : ''}`}
-                onClick={() => setSelectedVoice(v.id)}
-              >
-                <span className={styles.voiceName}>{v.label}</span>
-                <span className={styles.voiceDesc}>{v.desc}</span>
-              </button>
-            ))}
           </div>
 
-          {/* Speed control */}
-          <div className={styles.speedRow}>
-            <label className={styles.speedLabel}>
-              Speed: <strong>{voiceSpeed.toFixed(2)}×</strong>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--gray-600)', marginBottom: 8, display: 'block' }}>
+              Speed: {speed.toFixed(1)}x
             </label>
             <input
               type="range"
               min="0.7"
               max="1.3"
-              step="0.05"
-              value={voiceSpeed}
-              onChange={(e) => setVoiceSpeed(parseFloat(e.target.value))}
-              className={styles.speedSlider}
+              step="0.1"
+              value={speed}
+              onChange={(e) => setSpeed(parseFloat(e.target.value))}
+              style={{ width: '100%', accentColor: '#000' }}
             />
-            <span className={styles.speedHint}>0.7× — 1.3×</span>
           </div>
 
-          {/* Preview + Save */}
-          <div className={styles.voiceActions}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+            <input
+              value={previewText}
+              onChange={(e) => setPreviewText(e.target.value)}
+              style={{
+                flex: 1,
+                padding: '10px 14px',
+                border: '1px solid var(--gray-200)',
+                borderRadius: 8,
+                fontSize: 13,
+                outline: 'none',
+                minWidth: 200,
+              }}
+            />
             <button
-              className={styles.previewBtn}
-              onClick={handlePreviewVoice}
-              disabled={previewLoading}
+              onClick={previewVoice}
+              style={{
+                padding: '10px 16px',
+                border: '1px solid var(--gray-200)',
+                borderRadius: 8,
+                background: 'var(--white)',
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
             >
-              {previewLoading ? (
-                <>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.spinIcon}>
-                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                  </svg>
-                  Generating…
-                </>
-              ) : (
-                <>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
-                  Preview Voice
-                </>
-              )}
-            </button>
-
-            <button onClick={handleSaveVoiceConfig} className={styles.saveBtn}>
-              {voiceConfigSaved ? '✓ Saved!' : 'Save Voice Config'}
+              <Play size={14} />
+              Preview
             </button>
           </div>
-        </motion.div>
 
-        {/* ── AI CONTEXT ─────────────────────────────────────────────────────── */}
-        <motion.div
-          className={styles.card}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-        >
-          <h2 className={styles.cardTitle}>AI Personality Context</h2>
-          <p className={styles.cardDesc}>
-            Add additional context about yourself that the AI will use to answer questions.
-            This supplements the default context from your resume. Include personal interests,
-            communication style, opinions, hobbies, or anything that makes conversations feel authentic.
-          </p>
+          <button
+            onClick={saveVoiceConfig}
+            disabled={saving}
+            style={{
+              padding: '10px 20px',
+              background: 'var(--black)',
+              color: 'var(--white)',
+              border: 'none',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
+            <Save size={14} />
+            {saving ? 'Saving...' : 'Save Voice Config'}
+          </button>
+        </section>
 
-          <textarea
-            className={styles.contextInput}
-            value={contextText}
-            onChange={(e) => setContextText(e.target.value)}
-            placeholder={`Example:\n- I love reading sci-fi novels, especially Asimov\n- I'm passionate about net-zero buildings\n- I communicate in a friendly, casual way\n- My dream is to build India's first net-zero campus\n- I enjoy playing cricket on weekends`}
-            rows={12}
+        {/* Voice Samples */}
+        <section style={{ background: 'var(--white)', border: '1px solid var(--gray-200)', borderRadius: 12, padding: 32 }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>Voice Samples</h2>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="audio/*"
+            multiple
+            style={{ display: 'none' }}
+            onChange={(e) => e.target.files && uploadSamples(e.target.files)}
           />
 
-          <div className={styles.contextActions}>
-            <button onClick={handleSaveContext} className={styles.saveBtn}>
-              {contextSaved ? '✓ Saved!' : 'Save Context'}
-            </button>
-            <span className={styles.charCount}>{contextText.length} characters</span>
-          </div>
-        </motion.div>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              padding: '10px 20px',
+              border: '1px dashed var(--gray-300)',
+              borderRadius: 8,
+              background: 'var(--gray-50)',
+              fontSize: 13,
+              fontWeight: 500,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 16,
+              color: 'var(--gray-600)',
+            }}
+          >
+            <Upload size={14} />
+            Upload samples (max 5)
+          </button>
+
+          {voiceSamples.length === 0 ? (
+            <p style={{ fontSize: 13, color: 'var(--gray-400)' }}>No voice samples uploaded.</p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {voiceSamples.map((s) => (
+                <div
+                  key={s}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '10px 14px',
+                    border: '1px solid var(--gray-200)',
+                    borderRadius: 8,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <Volume2 size={14} color="var(--gray-400)" />
+                    <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)' }}>{s}</span>
+                  </div>
+                  <button
+                    onClick={() => deleteSample(s)}
+                    style={{
+                      padding: 4,
+                      border: 'none',
+                      background: 'none',
+                      cursor: 'pointer',
+                      color: 'var(--gray-400)',
+                    }}
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   )

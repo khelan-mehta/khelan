@@ -1,21 +1,14 @@
 import { Routes, Route } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import Home from './pages/Home'
 import Admin from './pages/Admin'
-import CustomCursor from './components/CustomCursor'
+import GitHubCallback from './pages/GitHubCallback'
 
-function App() {
+export default function App() {
   return (
-    <>
-      <div className="noise-overlay" />
-      <div className="grid-bg" />
-      <CustomCursor />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="/github/callback" element={<GitHubCallback />} />
+    </Routes>
   )
 }
-
-export default App

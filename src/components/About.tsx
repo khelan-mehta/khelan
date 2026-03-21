@@ -1,71 +1,143 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import styles from './About.module.css'
+
+const stats = [
+  { value: '3+', label: 'Years' },
+  { value: 'LEED', label: 'Certified' },
+  { value: '8.12', label: 'CGPA' },
+  { value: '20+', label: 'Projects' },
+]
+
+const ease = [0.16, 1, 0.3, 1] as const
 
 export default function About() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="about" className={styles.about} ref={ref}>
-      <div className={styles.container}>
+    <section id="about" className="section" ref={ref} style={{ background: '#000' }}>
+      <div className="container">
         <motion.div
-          className={styles.label}
-          initial={{ opacity: 0, x: -20 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease }}
         >
-          <span className={styles.labelLine} />
-          <span className={styles.labelText}>01 / About</span>
+          <span className="section-label">01 — About</span>
+          <h2 className="section-title">Building a sustainable future</h2>
+          <p className="section-subtitle" style={{ marginBottom: 64 }}>
+            Software engineer bridging sustainability consulting and modern
+            engineering with AI-driven solutions for the built environment.
+          </p>
         </motion.div>
 
-        <div className={styles.grid}>
-          <motion.div
-            className={styles.left}
-            initial={{ opacity: 0, y: 40 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h2 className={styles.title}>
-              Building a <em>sustainable</em> future through code & energy modeling
-            </h2>
-          </motion.div>
-
-          <motion.div
-            className={styles.right}
-            initial={{ opacity: 0, y: 40 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <p className={styles.text}>
-              I'm a third-year B.Tech ECE student at Nirma University with a passion 
-              for bridging technology and sustainability. As a LEED AP BD+C certified 
-              professional, I bring a unique combination of building energy modeling 
-              expertise and full-stack development skills.
-            </p>
-            <p className={styles.text}>
-              My work spans from conducting energy simulations using eQuest and IES VE 
-              to building AI-powered analysis systems. I believe in using technology 
-              to create measurable impact in building performance and environmental 
-              sustainability.
-            </p>
-
-            <div className={styles.stats}>
-              <div className={styles.stat}>
-                <span className={styles.statNum}>3+</span>
-                <span className={styles.statLabel}>Years of Development</span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2, ease }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+            gap: '1px',
+            background: 'rgba(255,255,255,0.08)',
+          }}
+        >
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              style={{
+                background: '#000',
+                padding: '40px 0',
+                textAlign: 'center',
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 34,
+                  fontWeight: 600,
+                  letterSpacing: '-0.02em',
+                  color: '#fff',
+                  marginBottom: 6,
+                }}
+              >
+                {stat.value}
               </div>
-              <div className={styles.stat}>
-                <span className={styles.statNum}>LEED</span>
-                <span className={styles.statLabel}>AP BD+C Certified</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNum}>8.12</span>
-                <span className={styles.statLabel}>CGPA at Nirma Univ.</span>
+              <div
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  fontWeight: 400,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.25)',
+                }}
+              >
+                {stat.label}
               </div>
             </div>
-          </motion.div>
-        </div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4, ease }}
+          style={{
+            marginTop: 64,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 48,
+          }}
+        >
+          <div>
+            <h3
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                marginBottom: 16,
+                color: '#fff',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              What I Do
+            </h3>
+            <p
+              style={{
+                fontSize: 14,
+                lineHeight: 1.8,
+                color: 'rgba(255,255,255,0.35)',
+              }}
+            >
+              From energy simulations to AI-powered analytics, I build tools
+              that make buildings smarter and greener. Full-stack engineering
+              meets sustainability domain expertise.
+            </p>
+          </div>
+          <div>
+            <h3
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                marginBottom: 16,
+                color: '#fff',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              My Approach
+            </h3>
+            <p
+              style={{
+                fontSize: 14,
+                lineHeight: 1.8,
+                color: 'rgba(255,255,255,0.35)',
+              }}
+            >
+              Data-driven and design-conscious. Great software should be both
+              functional and beautiful — solving real problems while providing
+              seamless experiences.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
