@@ -9,20 +9,48 @@ interface GraphNode {
   y: number
   connections: string[]
   desc?: string
+  url?: string
+  live?: string
 }
 
 const graphNodes: GraphNode[] = [
-  { id: 'p1', label: 'eQuest AI', type: 'project', x: 200, y: 150, connections: ['s1', 's3', 's5'], desc: 'AI-powered energy report analysis with RAG architecture' },
-  { id: 'p2', label: 'Smart Cart', type: 'project', x: 500, y: 120, connections: ['s2', 's4', 's6'], desc: 'ESP32 RFID scanning system with full-stack interface' },
-  { id: 'p3', label: 'Grid Security', type: 'project', x: 580, y: 300, connections: ['s1', 's3'], desc: 'Smart grid cybersecurity ML/DL research' },
-  { id: 'p4', label: 'Influencer App', type: 'project', x: 380, y: 400, connections: ['s2', 's4', 's6'], desc: 'Marketing platform with analytics dashboard' },
-  { id: 'p5', label: 'Energy Platform', type: 'project', x: 140, y: 340, connections: ['s1', 's2', 's3', 's5'], desc: 'Energy analytics with ML prediction models' },
-  { id: 's1', label: 'Python', type: 'skill', x: 80, y: 60, connections: [] },
-  { id: 's2', label: 'React', type: 'skill', x: 350, y: 45, connections: [] },
-  { id: 's3', label: 'AI / ML', type: 'skill', x: 650, y: 200, connections: [] },
-  { id: 's4', label: 'Node.js', type: 'skill', x: 530, y: 440, connections: [] },
-  { id: 's5', label: 'Energy', type: 'skill', x: 50, y: 240, connections: [] },
-  { id: 's6', label: 'TypeScript', type: 'skill', x: 240, y: 465, connections: [] },
+  // ── Top ranked projects ──
+  { id: 'p1', label: 'Skills Mirage', type: 'project', x: 350, y: 80, connections: ['s1', 's2', 's4', 's5', 's7'],
+    desc: 'India\'s 1st workforce intelligence system — live job scraping, AI risk scoring, 3D knowledge graph, bilingual chatbot',
+    url: 'https://github.com/khelan-mehta/skills-mirage', live: 'http://147.79.68.52:3600/' },
+  { id: 'p2', label: 'Cookie', type: 'project', x: 130, y: 160, connections: ['s2', 's4', 's5', 's3'],
+    desc: 'Animal emergency response platform — JWT + OAuth, OpenAI, AWS S3, Google Maps',
+    url: 'https://github.com/khelan-mehta/cookie', live: 'https://cookiefe.vercel.app' },
+  { id: 'p3', label: 'eQuest RAG', type: 'project', x: 580, y: 160, connections: ['s1', 's3', 's8'],
+    desc: 'RAG pipeline for energy simulation reports — LLM PDF generation, vector search',
+    url: 'https://github.com/khelan-mehta/equestRag' },
+  { id: 'p4', label: 'Fraud Detection', type: 'project', x: 620, y: 310, connections: ['s1', 's3', 's6'],
+    desc: 'ML money laundering detection — real-time inference pipeline, anomaly scoring',
+    url: 'https://github.com/khelan-mehta/money_laundering', live: 'https://fd-cli-final.vercel.app/' },
+  { id: 'p5', label: 'NoteNex', type: 'project', x: 490, y: 420, connections: ['s2', 's5'],
+    desc: 'Smart note-taking app — "Smarter Notes. Sharper Thinking."',
+    url: 'https://github.com/khelan-mehta/mhfe', live: 'https://mhfe.vercel.app/' },
+  { id: 'p6', label: 'IFRS Dashboard', type: 'project', x: 200, y: 370, connections: ['s1', 's2', 's3', 's4', 's7'],
+    desc: 'IFRS S1/S2 sustainability automation — compliance scoring, climate risk, RAG with MongoDB Vector Search',
+    url: 'https://github.com/khelan-mehta/ifrs' },
+  { id: 'p7', label: 'BH Frontend', type: 'project', x: 80, y: 290, connections: ['s2', 's5', 's4'],
+    desc: 'Next.js dashboard app — TypeScript, Docker, full-stack',
+    url: 'https://github.com/khelan-mehta/bh-frontend', live: 'https://bh-frontend-jbps.vercel.app/dashboard' },
+  { id: 'p8', label: 'Ergo Energy', type: 'project', x: 350, y: 470, connections: ['s2', 's5', 's8'],
+    desc: 'Production website for global energy modeling & green building consultancy (USA, India, Canada, UK)',
+    url: 'https://github.com/khelan-mehta/ergoWebsite', live: 'https://ergoenergysolution.com/' },
+  { id: 'p9', label: 'XAI Energy', type: 'project', x: 550, y: 240, connections: ['s1', 's3', 's6', 's8'],
+    desc: 'Explainable AI on ASHRAE dataset — LightGBM R²≈0.92, SHAP analysis, K-Means clustering',
+    url: 'https://github.com/khelan-mehta/xaiEnergy' },
+  // ── Skills ──
+  { id: 's1', label: 'Python', type: 'skill', x: 450, y: 170, connections: [] },
+  { id: 's2', label: 'React', type: 'skill', x: 210, y: 80, connections: [] },
+  { id: 's3', label: 'AI / ML', type: 'skill', x: 680, y: 230, connections: [] },
+  { id: 's4', label: 'Node.js', type: 'skill', x: 100, y: 420, connections: [] },
+  { id: 's5', label: 'TypeScript', type: 'skill', x: 250, y: 250, connections: [] },
+  { id: 's6', label: 'Data Science', type: 'skill', x: 660, y: 410, connections: [] },
+  { id: 's7', label: 'Docker', type: 'skill', x: 50, y: 140, connections: [] },
+  { id: 's8', label: 'Energy', type: 'skill', x: 480, y: 340, connections: [] },
 ]
 
 const ease = [0.16, 1, 0.3, 1] as const
@@ -93,7 +121,7 @@ export default function ProjectGraph({ onNodeClick }: { onNodeClick: () => void 
           transition={{ duration: 1, delay: 0.2, ease }}
           style={{ position: 'relative', maxWidth: 720, margin: '0 auto' }}
         >
-          <svg viewBox="0 0 700 510" style={{ width: '100%', height: 'auto', display: 'block', overflow: 'visible' }}>
+          <svg viewBox="0 0 730 520" style={{ width: '100%', height: 'auto', display: 'block', overflow: 'visible' }}>
             {/* Edges */}
             {edges.map(edge => {
               const active = isEdgeActive(edge.from.id, edge.to.id)
@@ -190,7 +218,7 @@ export default function ProjectGraph({ onNodeClick }: { onNodeClick: () => void 
                       fontWeight={600}
                       style={{ transition: 'fill 0.4s', pointerEvents: 'none' }}
                     >
-                      {node.id.replace('p', '0')}
+                      {node.id.replace('p', '#')}
                     </text>
                   )}
 
@@ -236,7 +264,7 @@ export default function ProjectGraph({ onNodeClick }: { onNodeClick: () => void 
                   backdropFilter: 'blur(16px)',
                   padding: '10px 18px',
                   borderRadius: 6,
-                  maxWidth: 300,
+                  maxWidth: 360,
                   textAlign: 'center',
                   pointerEvents: 'none',
                 }}
@@ -250,6 +278,24 @@ export default function ProjectGraph({ onNodeClick }: { onNodeClick: () => void 
                 }}>
                   {hoveredData.desc}
                 </p>
+                {(hoveredData.url || hoveredData.live) && (
+                  <div style={{
+                    marginTop: 6,
+                    display: 'flex',
+                    gap: 12,
+                    justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 10,
+                    letterSpacing: '0.04em',
+                  }}>
+                    {hoveredData.url && (
+                      <span style={{ color: 'rgba(255,255,255,0.25)' }}>GitHub</span>
+                    )}
+                    {hoveredData.live && (
+                      <span style={{ color: 'rgba(255,255,255,0.25)' }}>Live</span>
+                    )}
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
