@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import NineSteps from './NineSteps'
 
 const ease = [0.16, 1, 0.3, 1] as const
 
@@ -155,19 +156,30 @@ export default function MarcusStudio() {
           ))}
         </div>
 
-        {/* deck figure */}
-        <motion.figure
-          initial={{ opacity: 0, y: 26 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, delay: 0.4, ease }}
-          className="marcus-figure"
-        >
-          <img src="/marcus/steps.png" alt="Marcus Studio — hours of work distilled into a nine-step pipeline" loading="lazy" />
-          <figcaption>
-            <span className="mono-label" style={{ color: 'var(--on-night-3)' }}>Fig. 01</span>
-            From the internal deck — the nine-step pipeline, sign-in to auto-filled LEED MEPC.
-          </figcaption>
-        </motion.figure>
+        {/* nine-step pipeline — native, animated */}
+        <div className="marcus-steps">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.36, ease }}
+            style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 8 }}
+          >
+            <span className="mono-label" style={{ color: 'var(--on-night-3)' }}>The pipeline</span>
+          </motion.div>
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.42, ease }}
+            style={{
+              fontFamily: 'var(--serif)', fontWeight: 400,
+              fontSize: 'clamp(1.9rem, 4vw, 3rem)', lineHeight: 1, letterSpacing: '-0.02em',
+              color: 'var(--on-night)', maxWidth: '16ch', marginBottom: 'clamp(28px, 4vw, 48px)',
+            }}
+          >
+            Hours of work, distilled into <em style={{ fontStyle: 'italic', color: 'var(--indigo-2)' }}>nine steps</em>.
+          </motion.h3>
+          <NineSteps />
+        </div>
       </div>
 
       <style>{`
@@ -207,20 +219,7 @@ export default function MarcusStudio() {
           border: 1px solid var(--line-night);
         }
         .pillar { background: var(--night); padding: 30px 26px; }
-        .marcus-figure {
-          margin-top: clamp(52px, 7vw, 88px);
-          border: 1px solid var(--line-night);
-          border-radius: 12px;
-          overflow: hidden;
-          background: var(--night-2);
-        }
-        .marcus-figure img { width: 100%; display: block; }
-        .marcus-figure figcaption {
-          display: flex; align-items: center; gap: 12px;
-          padding: 14px 20px;
-          font-size: 13px; color: var(--on-night-2);
-          border-top: 1px solid var(--line-night);
-        }
+        .marcus-steps { margin-top: clamp(56px, 8vw, 96px); }
         @media (max-width: 860px) {
           .marcus-pillars { grid-template-columns: repeat(2, 1fr); }
           .marcus-lead { grid-template-columns: 1fr; gap: 30px; }
