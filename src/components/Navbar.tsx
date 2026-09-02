@@ -4,101 +4,71 @@ import { Menu, X } from 'lucide-react'
 
 const links = [
   { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
+  { label: 'Work', href: '#projects' },
   { label: 'Experience', href: '#experience' },
+  { label: 'Wins', href: '#wins' },
   { label: 'Contact', href: '#contact' },
 ]
 
+const ease = [0.16, 1, 0.3, 1] as const
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [dark, setDark] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 50)
-      setDark(window.scrollY > window.innerHeight * 0.65)
-    }
+    const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const fg = dark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.35)'
-  const fgHover = dark ? '#fff' : '#000'
-  const logo = dark ? '#fff' : '#000'
-  const bg = scrolled
-    ? dark
-      ? 'rgba(0,0,0,0.85)'
-      : 'rgba(255,255,255,0.88)'
-    : 'transparent'
-  const border = scrolled
-    ? dark
-      ? 'rgba(255,255,255,0.06)'
-      : 'rgba(0,0,0,0.06)'
-    : 'transparent'
-
-  const btnBorder = dark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)'
-  const btnColor = dark ? '#fff' : '#000'
-  const btnHoverBg = dark ? '#fff' : '#000'
-  const btnHoverColor = dark ? '#000' : '#fff'
-
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        initial={{ y: -80 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, ease }}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           zIndex: 1000,
-          padding: '0 48px',
-          height: 72,
+          height: 64,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: bg,
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: `1px solid ${border}`,
-          transition: 'all 0.5s ease',
+          padding: '0 clamp(24px, 5vw, 56px)',
+          background: scrolled ? 'rgba(245,244,239,0.82)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(18px) saturate(1.4)' : 'none',
+          borderBottom: `1px solid ${scrolled ? 'var(--line)' : 'transparent'}`,
+          transition: 'background 0.4s ease, border-color 0.4s ease',
         }}
       >
-        <a
-          href="#"
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 18,
-            fontWeight: 600,
-            letterSpacing: '-0.03em',
-            color: logo,
-            transition: 'color 0.5s ease',
-          }}
-        >
-          KM
+        <a href="#top" aria-label="Home" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <svg width="22" height="22" viewBox="0 0 100 100" aria-hidden>
+            <rect width="100" height="100" rx="22" fill="#0b0b0c" />
+            <path d="M35 24v52M35 50l26-26M35 50l28 26" stroke="#4b3bff" strokeWidth="7.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5, fontWeight: 500, letterSpacing: '0.04em', color: 'var(--ink)' }}>
+            KHELAN&nbsp;MEHTA
+          </span>
         </a>
 
-        <div
-          className="nav-links-desktop"
-          style={{ display: 'flex', alignItems: 'center', gap: 32 }}
-        >
+        <div className="nav-links-desktop" style={{ display: 'flex', alignItems: 'center', gap: 30 }}>
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               style={{
-                fontSize: 12,
-                fontWeight: 400,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: fg,
-                transition: 'color 0.25s ease',
-                fontFamily: 'var(--font-body)',
+                fontSize: 13,
+                fontWeight: 500,
+                letterSpacing: '-0.01em',
+                color: 'var(--ink-3)',
+                transition: 'color 0.2s ease',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = fgHover)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = fg)}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--ink)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--ink-3)')}
             >
               {link.label}
             </a>
@@ -108,37 +78,32 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: 500,
-              letterSpacing: '0.03em',
-              padding: '7px 18px',
-              border: `1px solid ${btnBorder}`,
+              padding: '8px 18px',
+              border: '1px solid var(--line-strong)',
               borderRadius: 100,
-              color: btnColor,
-              transition: 'all 0.3s ease',
+              color: 'var(--ink)',
+              transition: 'all 0.25s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = btnHoverBg
-              e.currentTarget.style.color = btnHoverColor
+              e.currentTarget.style.background = 'var(--ink)'
+              e.currentTarget.style.color = 'var(--paper)'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = btnColor
+              e.currentTarget.style.color = 'var(--ink)'
             }}
           >
-            Resume
+            Résumé
           </a>
         </div>
 
         <button
           className="nav-mobile-toggle"
           onClick={() => setMobileOpen(!mobileOpen)}
-          style={{
-            display: 'none',
-            padding: 8,
-            color: logo,
-            transition: 'color 0.5s ease',
-          }}
+          aria-label="Menu"
+          style={{ display: 'none', width: 40, height: 40, alignItems: 'center', justifyContent: 'center', color: 'var(--ink)' }}
         >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -147,23 +112,22 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: -8 }}
             style={{
               position: 'fixed',
-              top: 72,
+              top: 64,
               left: 0,
               right: 0,
               zIndex: 999,
-              background: dark ? 'rgba(0,0,0,0.95)' : 'rgba(255,255,255,0.97)',
-              backdropFilter: 'blur(20px)',
-              borderBottom: `1px solid ${border}`,
-              padding: '24px 48px',
+              background: 'rgba(245,244,239,0.97)',
+              backdropFilter: 'blur(18px)',
+              borderBottom: '1px solid var(--line)',
+              padding: '20px clamp(24px, 5vw, 56px) 28px',
               display: 'flex',
               flexDirection: 'column',
-              gap: 20,
-              transition: 'background 0.5s ease',
+              gap: 4,
             }}
           >
             {links.map((link) => (
@@ -171,15 +135,20 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                style={{
-                  fontSize: 15,
-                  fontWeight: 400,
-                  color: dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
-                }}
+                style={{ fontSize: 18, fontWeight: 500, color: 'var(--ink)', padding: '12px 0', borderBottom: '1px solid var(--line-2)' }}
               >
                 {link.label}
               </a>
             ))}
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileOpen(false)}
+              style={{ fontSize: 18, fontWeight: 500, color: 'var(--indigo)', padding: '12px 0' }}
+            >
+              Résumé ↗
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

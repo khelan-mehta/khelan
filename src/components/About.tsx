@@ -1,144 +1,128 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
-const stats = [
-  { value: '3+', label: 'Years' },
-  { value: 'LEED', label: 'Certified' },
-  { value: '8.12', label: 'CGPA' },
-  { value: '20+', label: 'Projects' },
-]
-
 const ease = [0.16, 1, 0.3, 1] as const
+
+const ledger: [string, string][] = [
+  ['National hackathon wins', '5+'],
+  ['Best finish', '2nd / 2,200+ teams'],
+  ['CannonDesign workflow', '80h → ~2h'],
+  ['Credential', 'LEED AP BD+C'],
+  ['B.Tech ECE · Nirma', 'CGPA 8.12 / 10'],
+]
 
 export default function About() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="about" className="section" ref={ref} style={{ background: '#000' }}>
+    <section id="about" className="section" ref={ref} style={{ background: 'var(--paper)' }}>
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease }}
         >
-          <span className="section-label">01 — About</span>
-          <h2 className="section-title">Building a sustainable future</h2>
-          <p className="section-subtitle" style={{ marginBottom: 64 }}>
-            Software engineer bridging sustainability consulting and modern
-            engineering with AI-driven solutions for the built environment.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2, ease }}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: '1px',
-            background: 'rgba(255,255,255,0.08)',
-          }}
-        >
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              style={{
-                background: '#000',
-                padding: '40px 0',
-                textAlign: 'center',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 34,
-                  fontWeight: 600,
-                  letterSpacing: '-0.02em',
-                  color: '#fff',
-                  marginBottom: 6,
-                }}
-              >
-                {stat.value}
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 10,
-                  fontWeight: 400,
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.25)',
-                }}
-              >
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4, ease }}
-          style={{
-            marginTop: 64,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 48,
-          }}
-        >
-          <div>
-            <h3
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                marginBottom: 16,
-                color: '#fff',
-                letterSpacing: '-0.01em',
-              }}
-            >
-              What I Do
-            </h3>
-            <p
-              style={{
-                fontSize: 14,
-                lineHeight: 1.8,
-                color: 'rgba(255,255,255,0.35)',
-              }}
-            >
-              From energy simulations to AI-powered analytics, I build tools
-              that make buildings smarter and greener. Full-stack engineering
-              meets sustainability domain expertise.
-            </p>
-          </div>
-          <div>
-            <h3
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                marginBottom: 16,
-                color: '#fff',
-                letterSpacing: '-0.01em',
-              }}
-            >
-              My Approach
-            </h3>
-            <p
-              style={{
-                fontSize: 14,
-                lineHeight: 1.8,
-                color: 'rgba(255,255,255,0.35)',
-              }}
-            >
-              Data-driven and design-conscious. Great software should be both
-              functional and beautiful — solving real problems while providing
-              seamless experiences.
-            </p>
+          <div className="sec-head">
+            <span className="sec-index">/ about</span>
+            <h2 className="sec-title">The short version</h2>
           </div>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, delay: 0.1, ease }}
+          style={{
+            fontFamily: 'var(--serif)',
+            fontWeight: 400,
+            fontSize: 'clamp(1.6rem, 3.4vw, 2.75rem)',
+            lineHeight: 1.28,
+            letterSpacing: '-0.015em',
+            color: 'var(--ink)',
+            maxWidth: '22ch',
+            marginTop: 52,
+          }}
+        >
+          I build the tooling that removes manual reporting work — and I{' '}
+          <em style={{ color: 'var(--indigo)' }}>understand the reporting</em> it has to serve.
+        </motion.p>
+
+        <div className="about-grid">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease }}
+          >
+            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--ink-2)', marginBottom: 22, maxWidth: '52ch' }}>
+              I’m an AI engineer who ships production LLM systems for sustainability. Hands-on across
+              the full RAG stack — hybrid retrieval, reranking, agentic pipelines, evaluation and
+              hallucination control — with a bias toward grounding every claim in a citation.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--ink-3)', maxWidth: '52ch' }}>
+              The domain isn’t incidental. I’m LEED AP BD+C, I’ve run building-energy audits and LEED
+              baseline models, and I’ve reconciled one messy set of source data against GRI, BRSR,
+              ESRS/CSRD, SBTi and ISSB without losing the thread from disclosure back to raw evidence.
+              That’s the hard part — and it’s where I like to work.
+            </p>
+          </motion.div>
+
+          <motion.dl
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease }}
+            className="about-ledger"
+          >
+            {ledger.map(([k, v]) => (
+              <div key={k} className="ledger-row">
+                <dt>{k}</dt>
+                <span className="ledger-dots" aria-hidden />
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </motion.dl>
+        </div>
       </div>
+
+      <style>{`
+        .about-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: clamp(32px, 6vw, 80px);
+          margin-top: clamp(48px, 6vw, 80px);
+          align-items: start;
+        }
+        .about-ledger {
+          border-top: 1px solid var(--line);
+        }
+        .ledger-row {
+          display: flex;
+          align-items: baseline;
+          gap: 10px;
+          padding: 15px 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .ledger-row dt {
+          font-size: 13.5px;
+          color: var(--ink-3);
+          white-space: nowrap;
+        }
+        .ledger-dots {
+          flex: 1;
+          border-bottom: 1px dotted var(--line-strong);
+          transform: translateY(-3px);
+        }
+        .ledger-row dd {
+          font-family: var(--mono);
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--ink);
+          white-space: nowrap;
+        }
+        @media (max-width: 820px) {
+          .about-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </section>
   )
 }

@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
-import Skills from '../components/Skills'
+import FlagshipProjects from '../components/FlagshipProjects'
+import MarcusStudio from '../components/MarcusStudio'
 import ProjectGraph from '../components/ProjectGraph'
+import Skills from '../components/Skills'
 import Experience from '../components/Experience'
+import Wins from '../components/Wins'
 import Certifications from '../components/Certifications'
 import Contact from '../components/Contact'
-import TalkModal from '../components/TalkModal'
-import KnowledgeGraph from '../components/knowledge-graph/KnowledgeGraph'
-import ParticleField from '../components/ParticleField'
-import FloatingNode from '../components/FloatingNode'
 import CustomCursor from '../components/CustomCursor'
+
+const TalkModal = lazy(() => import('../components/TalkModal'))
+const KnowledgeGraph = lazy(() => import('../components/knowledge-graph/KnowledgeGraph'))
 
 export default function Home() {
   const [talkOpen, setTalkOpen] = useState(false)
@@ -19,8 +21,6 @@ export default function Home() {
 
   return (
     <>
-      <ParticleField />
-      <FloatingNode onNodeClick={() => setGraphOpen(true)} />
       <CustomCursor />
       <Navbar />
       <main>
@@ -29,9 +29,12 @@ export default function Home() {
           onGraphClick={() => setGraphOpen(true)}
         />
         <About />
+        <FlagshipProjects />
+        <MarcusStudio />
         <Skills />
         <ProjectGraph onNodeClick={() => setGraphOpen(true)} />
         <Experience />
+        <Wins />
         <Certifications />
         <Contact />
       </main>
@@ -39,26 +42,18 @@ export default function Home() {
       <button
         className="floating-talk-btn"
         onClick={() => setTalkOpen(true)}
-        aria-label="Talk with Khelan"
+        aria-label="Talk with Khelan's AI"
       >
         <span className="floating-pulse" />
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polygon points="23 7 16 12 23 17 23 7" />
-          <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
       </button>
 
-      <TalkModal open={talkOpen} onClose={() => setTalkOpen(false)} />
-      <KnowledgeGraph isOpen={graphOpen} onClose={() => setGraphOpen(false)} />
+      <Suspense fallback={null}>
+        {talkOpen && <TalkModal open={talkOpen} onClose={() => setTalkOpen(false)} />}
+        {graphOpen && <KnowledgeGraph isOpen={graphOpen} onClose={() => setGraphOpen(false)} />}
+      </Suspense>
     </>
   )
 }

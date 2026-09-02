@@ -40,3 +40,7 @@ coverage/
 *.local
 
 # Package manager lock files (optional - keep if workin
+
+# Impeccable design QA artifacts
+.impeccable/
+shot*.cjs
