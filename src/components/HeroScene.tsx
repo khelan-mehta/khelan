@@ -52,7 +52,8 @@ function EnergyCore() {
     }
   })
 
-  const scale = Math.min(viewport.width, viewport.height) / 5
+  const portrait = viewport.aspect < 1
+  const scale = (Math.min(viewport.width, viewport.height) / 5) * (portrait ? 0.72 : 1)
 
   return (
     <group ref={group} scale={scale}>
@@ -115,6 +116,22 @@ function ParticleField() {
   )
 }
 
+/* Pushes the core + ring off-center to the right so the wordmark stays clear.
+   Offset scales with viewport so it never flies off a narrow screen. */
+function Rig({ children }: { children: React.ReactNode }) {
+  const ref = useRef<THREE.Group>(null)
+  const { viewport } = useThree()
+  useFrame(() => {
+    if (!ref.current) return
+    const portrait = viewport.aspect < 1
+    const tx = viewport.width * (portrait ? 0.2 : 0.26)
+    const ty = portrait ? viewport.height * 0.2 : 0
+    ref.current.position.x += (tx - ref.current.position.x) * 0.08
+    ref.current.position.y += (ty - ref.current.position.y) * 0.08
+  })
+  return <group ref={ref}>{children}</group>
+}
+
 function OrbitRing() {
   const pts = useMemo(() => {
     const p: [number, number, number][] = []
@@ -148,8 +165,10 @@ export default function HeroScene() {
         <ambientLight intensity={0.7} />
         <directionalLight position={[4, 6, 5]} intensity={1.5} color="#ffffff" />
         <directionalLight position={[-5, -2, -4]} intensity={0.8} color="#6a5cff" />
-        <EnergyCore />
-        <OrbitRing />
+        <Rig>
+          <EnergyCore />
+          <OrbitRing />
+        </Rig>
         <ParticleField />
       </Suspense>
     </Canvas>

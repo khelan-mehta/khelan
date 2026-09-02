@@ -35,8 +35,9 @@ export default function Hero({ onTalkClick, onGraphClick }: HeroProps) {
           position: 'absolute',
           inset: 0,
           zIndex: 1,
-          // bias right on wide screens so it sits beside the wordmark
-          maskImage: 'radial-gradient(120% 100% at 65% 45%, #000 55%, transparent 100%)',
+          // reveal the right where the core now sits; fade the left so the wordmark stays clean
+          maskImage: 'radial-gradient(90% 95% at 78% 48%, #000 45%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(90% 95% at 78% 48%, #000 45%, transparent 100%)',
         }}
         aria-hidden
       >
