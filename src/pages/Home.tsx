@@ -1,6 +1,7 @@
 import { useState, lazy, Suspense } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
+import CurrentModels from '../components/CurrentModels'
 import About from '../components/About'
 import FlagshipProjects from '../components/FlagshipProjects'
 import MarcusStudio from '../components/MarcusStudio'
@@ -28,6 +29,7 @@ export default function Home() {
           onTalkClick={() => setTalkOpen(true)}
           onGraphClick={() => setGraphOpen(true)}
         />
+        <CurrentModels />
         <About />
         <FlagshipProjects />
         <MarcusStudio />
